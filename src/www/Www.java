@@ -1,37 +1,12 @@
 package www;
 
-/**
- *
- * @author the entire gang working together
- */
 public class Www {
+
+    /**
+     * @param args the command line arguments
+     */
     public static void main(String[] args) {
         // TODO code application logic here
-		//test
-		/*
-		
-		*   *
-		-___-
-		
-		*/
     }
+    
 }
-
-/*
-
-class Transaction {
-    Date date;
-    int customerId;
-}
-
-class Order : Transaction {
-    int number;
-}
-
-class Payment : Transaction {
-    int sum
-}
-
-Transaction[] transactions;
-Order[] upcomingOrders;
-*/
