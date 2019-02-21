@@ -5,14 +5,20 @@
  */
 package www;
 
-public class Transaction {
-    Date date;
-    Customer customer;
-    //int customerID;
-    
-    Transaction(Date date, Customer customer) {
-        this.date = date;
-        this.customer = customer;
-        //customerID = customer.ID;
-    }
+/*
+A Transaction contains a customer, a date, and the amount of money transacted.
+It is specialized as a Payment (which doesn't add anything) or an Order (which adds quite a lot)
+*/
+abstract public class Transaction {
+	public Date dateMade;	//the date that the transaction was made on
+	public int customerNumber;	//who made the transaction
+	public int amount;	//how much money was exchanged
+	
+	Transaction(Date date, int customerNumber, int amount) {
+		this.dateMade = date;
+		this.customerNumber = customerNumber;
+		this.amount = amount;
+	}
+	
+	abstract public String report();
 }

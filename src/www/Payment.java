@@ -5,12 +5,12 @@
  */
 package www;
 
+/*A payment is identical to a generic Transaction except for the report*/
 public class Payment extends Transaction {
-    public int amount;
-    
-    public Payment(Date date, Customer customer, int amount) {
-        super(date, customer);
-        this.amount = amount;
-    }
-    
+	public Payment(Date dateMade, int customerNumber, int amount) {
+		super(dateMade, customerNumber, amount);
+	}
+	public String report() {
+		return "not yet";
+	}
 }
