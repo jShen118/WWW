@@ -20,4 +20,7 @@ public class Support {
 		}
 		return toBuffer;
 	}
+	static public String[] splitStringIntoParts(String s) {	//splits string by space
+		return s.split("\\s+");
+	}
 }

@@ -28,7 +28,7 @@ public class Www {
 		System.out.print(p);
 		Date d = new Date(12, 15, 1999);
 		Payment r = new Payment(d, 24, 100);
-		Order o = new Order(d, 24, p.getRepairPrice("bop", RepairLevel.platinum), "None");
+		Order o = new Order(d, 24, p.getRepairPrice("bop", RepairLevel.platinum), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse libero sapien, venenatis at dictum nec, mattis at risus. Sed hendrerit ");
 //		o.complete(d);
 		System.out.println(r);
 		System.out.println(o);
