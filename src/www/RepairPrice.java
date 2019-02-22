@@ -25,4 +25,19 @@ public class RepairPrice {
     public void newRepairTime(int daysToRepair) {
         this.daysToRepair = daysToRepair;
     }
+	
+	public String toString() {
+		//values are padded to ensure each repairPrice is the same size (19 characters)
+		//this allows it to be nicely tiled in a grid
+		String stringPrice = Integer.toString(price);
+		while (stringPrice.length() < 3) {
+			stringPrice = " " + stringPrice;
+		}
+		String stringDays = Integer.toString(daysToRepair);
+		while (stringDays.length() < 3) {
+			stringDays = " " + stringDays;
+		}
+		return "Price:" + stringPrice + ", Days:" + stringDays;
+		//example: "Price: 50, Days:  3"
+	}
 }
