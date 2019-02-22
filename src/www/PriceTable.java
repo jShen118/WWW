@@ -62,7 +62,7 @@ public class PriceTable {
 				brandNameHorizontalBarWithTitle += "-";
 			}
 		}
-		toRet = "┌" + brandNameHorizontalBarWithTitle + "┬" + "[Silver]-------------" + "┬" + "[Gold]---------------" + "┬" + "[Platinum]-----------" + "┐\n";
+		toRet = "┌" + brandNameHorizontalBarWithTitle + "┬[Silver]-------------┬[Gold]---------------┬[Platinum]-----------┐\n";
 		for (Map.Entry<String, PriceTrio> entry : table.entrySet()) {
 			PriceTrio value = entry.getValue();
 			String brand = entry.getKey();
@@ -73,7 +73,7 @@ public class PriceTable {
 			//add the new row
 			toRet = toRet + "│" + brand + " │" + value.toString() + "\n";
 		}
-		toRet = toRet + "└" + brandNameHorizontalBar + "┴" + "---------------------" + "┴" + "---------------------" + "┴" + "---------------------" + "┘\n";
+		toRet = toRet + "└" + brandNameHorizontalBar + "┴---------------------┴---------------------┴---------------------┘\n";
 		return toRet;
 	}
 }

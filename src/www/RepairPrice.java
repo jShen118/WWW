@@ -6,8 +6,8 @@
 package www;
 
 public class RepairPrice {
-    private String brand;
-    private RepairLevel level;
+    public String brand;
+    public RepairLevel level;
     public int price;
     public int daysToRepair;
     
@@ -29,14 +29,8 @@ public class RepairPrice {
 	public String toString() {
 		//values are padded to ensure each repairPrice is the same size (19 characters)
 		//this allows it to be nicely tiled in a grid
-		String stringPrice = Integer.toString(price);
-		while (stringPrice.length() < 3) {
-			stringPrice = " " + stringPrice;
-		}
-		String stringDays = Integer.toString(daysToRepair);
-		while (stringDays.length() < 3) {
-			stringDays = " " + stringDays;
-		}
+		String stringPrice = Support.bufferSpace(Integer.toString(price), 3);
+		String stringDays = Support.bufferSpace(Integer.toString(daysToRepair), 3);
 		return "Price:" + stringPrice + ", Days:" + stringDays;
 		//example: "Price: 50, Days:  3"
 	}

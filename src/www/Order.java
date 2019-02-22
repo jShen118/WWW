@@ -30,7 +30,36 @@ public class Order extends Transaction {
 		return (completionDate != null);
 	}
 	
-	public String report() {
-		return "not yet";
+	private String multilineComment(String comment) {
+		return comment;
+	}
+	public String toString() {	//display information by order of relevancy
+		String toRet = "├-----------[Order]-----------┤\n";
+		String stringOrder = Support.bufferSpace(Integer.toString(orderNumber), 20);
+		toRet += "　Order ID:" + stringOrder + "\n";
+
+		String stringDate3 = (completionDate == null ? "-" : completionDate.readableToString());
+		stringDate3 = Support.bufferSpace(stringDate3, 19);
+		toRet += "　Completed:" + stringDate3 + "\n";
+		
+		String stringDate = Support.bufferSpace(dateMade.readableToString(), 17);
+		toRet += "　Date Placed:" + stringDate + "\n";
+		
+		String stringDate2 = Support.bufferSpace(promisedDate().readableToString(), 15);
+		toRet += "　Date Promised:" + stringDate2 + "\n";
+		
+		String stringCustomer = Support.bufferSpace(Integer.toString(customerNumber), 17);
+		toRet += "　Customer ID:" + stringCustomer + "\n";
+		
+		String stringBrand = Support.bufferSpace(repairPrice.brand, 18);
+		toRet += "　Bike Brand:" + stringBrand + "\n";
+		
+		String stringLevel = Support.bufferSpace(repairPrice.level.toString(), 16);
+		toRet += "　Repair Level:" + stringLevel + "\n";
+		
+		String stringPrice = Support.bufferSpace("$" + Integer.toString(amount), 18);
+		toRet += "　Amount due:" + stringPrice + "\n";
+		
+		return toRet;
 	}
 }

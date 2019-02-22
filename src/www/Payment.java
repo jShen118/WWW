@@ -7,10 +7,17 @@ package www;
 
 /*A payment is identical to a generic Transaction except for the report*/
 public class Payment extends Transaction {
-	public Payment(Date dateMade, int customerNumber, int amount) {
+	Payment(Date dateMade, int customerNumber, int amount) {
 		super(dateMade, customerNumber, amount);
 	}
-	public String report() {
-		return "not yet";
+	public String toString() {
+		String toRet = "├----------[Payment]----------┤\n";
+		String stringCustomer = Support.bufferSpace(Integer.toString(customerNumber), 17);
+		toRet += "　Customer ID:" + stringCustomer + "\n";
+		String stringPrice = Support.bufferSpace(Integer.toString(amount), 17);
+		toRet += "　Amount paid:" + stringPrice + "\n";
+		String stringDate = Support.bufferSpace(dateMade.readableToString(), 13);
+		toRet += "　Date of Payment:" + stringDate + "\n";
+		return toRet;
 	}
 }

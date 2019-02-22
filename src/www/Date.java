@@ -34,22 +34,14 @@ public class Date {
 	}
 	
 	public String toString() {	//converts the date to string MMDDYYYY
-		//for months, days, and years, it converts the value to a string
-		//and then checks if it is of the correct length. If it isn't, it
-		//pads it with "0" (for example, a month of "3" will become "03")
-		String MM = Integer.toString(month);
-		if (MM.length() == 1) {
-			MM = "0" + MM;
-		}
-		String DD = Integer.toString(day);
-		if (DD.length() == 1) {
-			DD = "0" + DD;
-		}
-		String YYYY = Integer.toString(year);
-		while (YYYY.length() != 4) {
-			YYYY = "0" + YYYY;
-		}
+		String MM = Support.bufferZero(Integer.toString(month), 2);
+		String DD = Support.bufferZero(Integer.toString(day), 2);
+		String YYYY = Support.bufferZero(Integer.toString(year), 4);
 		return MM + DD + YYYY;
+	}
+	
+	public String readableToString() {
+		return Integer.toString(month) + "/" + Integer.toString(day) + "/" + Integer.toString(year);
 	}
 	
 	private Date addDays(int daysLater, int daysInMonth) {
@@ -59,7 +51,7 @@ public class Date {
 		if (this.day + daysLater > daysInMonth) {
 			newMonth = this.month + 1;
 			newDay = this.day + daysLater - daysInMonth;
-			if (newMonth == 1) {newYear = this.year + 1;} else {newYear = this.year + 1;}
+			if (newMonth > 12) {newYear = this.year + 1; newMonth = newMonth % 12;} else {newYear = this.year;}
 			return new Date(newMonth, newDay, newYear);
 		}
 		//executes if no month change
