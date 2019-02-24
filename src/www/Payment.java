@@ -20,4 +20,8 @@ public class Payment extends Transaction {
 		toRet += "　Date of Payment:" + stringDate + "\n";
 		return toRet;
 	}
+	public String toCommand() {
+		return "addp " + Integer.toString(customerNumber) + " " + dateMade.toString() + " " + Integer.toString(amount);
+		//example: payment of $25 on 2/5/16 made by customer#24 would be "addp 24 02052016 25"
+	}
 }

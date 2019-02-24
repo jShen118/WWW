@@ -50,4 +50,18 @@ public class PriceTrio {
 		}
 		return " " + string0 + " │ " + string1 + " │ " + string2 + " │";
 	}
+	public String toCommand() {
+		//returns a multiline command for its RepairPrices
+		String command = "";
+		if (prices[0] != null) {
+			command += prices[0].toCommand() + "\n";
+		}
+		if (prices[1] != null) {
+			command += prices[1].toCommand() + "\n";
+		}
+		if (prices[2] != null) {
+			command += prices[2].toCommand() + "\n";
+		}
+		return command;
+	}
 }

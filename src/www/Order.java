@@ -61,4 +61,12 @@ public class Order extends Transaction {
 		toRet += "　Comment: " + stringComment + "\n";
 		return toRet;
 	}
+	public String toCommand() {
+		return "addo " + Integer.toString(customerNumber) + " " + dateMade.toString() + " " + 
+				repairPrice.brand + " " + repairPrice.level.toString() + " " + comment;
+		//note: everything after repair level is to be treated as a comment.
+		//"addo 13 10141066 norman gold in pretty bad shape needs extensive tuning"
+		//will have a comment of "in pretty bad shape needs extensive tuning" rather than
+		//"in" with the extra 'parameters' being ignored
+	}
 }

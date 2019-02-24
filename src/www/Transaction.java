@@ -9,7 +9,7 @@ package www;
 A Transaction contains a customer, a date, and the amount of money transacted.
 It is specialized as a Payment (which doesn't add anything) or an Order (which adds quite a lot)
 */
-public class Transaction {
+public abstract class Transaction {
 	public Date dateMade;	//the date that the transaction was made on
 	public int customerNumber;	//who made the transaction
 	public int amount;	//how much money was exchanged
@@ -19,4 +19,6 @@ public class Transaction {
 		this.customerNumber = customerNumber;
 		this.amount = amount;
 	}
+	
+	abstract public String toCommand();
 }

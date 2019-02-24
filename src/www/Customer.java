@@ -21,4 +21,8 @@ public class Customer {
 		return firstName + " " + lastName + "(customer #" + Integer.toString(customerNumber) + ")";
 		//example: "John Smith (customer #193)"
 	}
+	public String toCommand() {
+		return "addc " + firstName + " " + lastName;
+		//example: John Smith (customer #193) would become "addc john smith"
+	}
 }

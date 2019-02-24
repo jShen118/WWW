@@ -76,4 +76,16 @@ public class PriceTable {
 		toRet = toRet + "└" + brandNameHorizontalBar + "┴---------------------┴---------------------┴---------------------┘\n";
 		return toRet;
 	}
+	public String toCommand() {
+		//this method returns a multiline string of RepairPrice commands derived from its PriceTrios
+		String command = "";
+		//loop through the table of brands
+		for (Map.Entry<String, PriceTrio> entry : table.entrySet()) {
+			PriceTrio value = entry.getValue();
+			//append the commands needed to make the prices for given brand
+			command += value.toCommand();
+		}
+		//return commands
+		return command;
+	}
 }

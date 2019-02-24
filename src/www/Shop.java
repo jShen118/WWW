@@ -66,7 +66,27 @@ public class Shop {
 		public void printt() {};	//print transactions
 		public void printr() {};	//print receivables
 		public void prints() {};	//print statements
-		public void readc(String filename) {};	//read commands from file
-		public void savebs(String filename) {};	//save bike shop to file
-		public void restorebs(String filename) {};	//restore a previously saved bike shop
+		/**
+		 * the actual save/load/read should be handled by IOHandler
+		 * instead, getSavefile() passes to IOHandler the commands needed to restore the system
+		 * in the form of a big string. The IOHandler takes that string and saves,
+		 * and handles loading/reading like it would handle any input
+		 */
+	public String getSavefile() {
+		String savefile = "";
+		//customers first
+		for (int i = 0; i < customers.size(); ++i) {
+			savefile += customers.get(i).toCommand() + "\n";
+		}
+		//then pricetable
+		savefile += priceTable.toCommand();
+		//then transactions
+		for (int i = 0; i < transactions.size(); ++i) {
+			savefile += transactions.get(i).toCommand() + "\n";
+		}
+		return savefile;
+	}
+//	public void readc(String filename) {};	//read commands from file
+//	public void savebs(String filename) {};	//save bike shop to file
+//	public void restorebs(String filename) {};	//restore a previously saved bike shop
 }

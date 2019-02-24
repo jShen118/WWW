@@ -34,4 +34,7 @@ public class RepairPrice {
 		return "Price:" + stringPrice + ", Days:" + stringDays;
 		//example: "Price: 50, Days:  3"
 	}
+	public String toCommand() {
+		return "addrp " + brand + " " + level.toString() + " " + Integer.toString(price) + " " + Integer.toString(daysToRepair);
+	}
 }
