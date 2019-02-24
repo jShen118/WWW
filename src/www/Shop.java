@@ -68,8 +68,70 @@ public class Shop {
 	public void printrp() {
 		System.out.println(priceTable);
 	};	//print repair prices
-		public void printcnum() {};	//print customers by number
-		public void printcname() {};	//print customers by name
+	
+	public String customerInfo(Customer c) { //helper for cnum and cname, returns all relevant info about a customer including number of orders, total value of orders, debt to the company, and a table of all their transactions
+            ArrayList<Transaction> customerTransactions;
+            ArrayList<Order> customerOrders;
+            String toReturn = c.toString() + ":\n";
+            customerTransactions = Support.customerTransactions(c, (ArrayList<Transaction>) transactions);
+            customerOrders = Support.orders(customerTransactions);
+            toReturn += "# of orders: " +  customerOrders.size();
+            toReturn += "\ntotal value of orders: $" + Support.transactionsSum(customerOrders);
+            toReturn += "\ndebt to company: $" + Support.transactionsSum(customerTransactions) + "\n\n";
+            toReturn += c.firstName + " " + c.lastName + "'s Transactions:\n";
+            toReturn += "┌[Date]--┬[Type]-----┬[Amount]┬[Status]---┐";
+            for(Transaction t: customerTransactions) { //this for loop is for producing the table
+                Date date = t.dateMade;
+                String type;
+                int amount = t.amount;
+                String status;
+                if(t instanceof Order) {
+                    type = "Order";
+                    if(((Order) t).isComplete()) {
+                        status = "  complete ";
+                    } else {status = "incomplete ";}
+                } else {
+                    type = "Payment";
+                    status = "     -     ";
+                }
+                    
+                String typeWithBuffer = Support.bufferSpace(type, 11);
+                String amountWithBuffer = Support.bufferSpace(Integer.toString(amount), 8);
+                toReturn += "\n│" + date + "--│" + typeWithBuffer + "│" + amountWithBuffer + "│";
+            }
+            toReturn += "\n└--------┴-----------┴--------┘\n\n\n";
+            return toReturn;
+        }
+	
+	public void printcnum() { //prints customers by number
+            String toPrint = "├-[Customers by number]--------------------------------------------------------------┤\n";
+            for(Customer c: customers) { //no ordering for customerNumber needed because ArrayList customers' first element is customer with number 1, second element is customer with number 2, so on and so forth
+                toPrint += customerInfo(c);
+            } 
+            toPrint += "├------------------------------------------------------------------------------------┤";
+            System.out.println(toPrint);
+        }//print customers by number
+	public void printcname() {//print customers by name
+            String toPrint = "├-[Customers by alphabetical order of last names]------------------------------------┤\n";
+            ArrayList<String> lastNames = new ArrayList<>();
+            HashMap<String, Customer> map = new HashMap<>();
+            for(Customer c: customers) {
+                lastNames.add(c.lastName);
+                map.put(c.lastName, c);
+            }
+            Collections.sort(lastNames);
+            
+            ArrayList<Customer> customersByLastName = new ArrayList<>();
+            for(String ln: lastNames) { //fills new Customer Array List but in order by last name
+                customersByLastName.add(map.get(ln));
+            }
+            
+            for(Customer c: customersByLastName) {
+                toPrint += customerInfo(c);
+            }
+            toPrint += "├------------------------------------------------------------------------------------┤";
+            System.out.println(toPrint);
+        };	//print customers by name
 		public void printo() {};	//print orders
 		public void printp() {};	//print payments
 		public void printt() {};	//print transactions
