@@ -27,6 +27,9 @@ public class Www {
 		Date d = new Date(12, 15, 1999);
 		Payment r = new Payment(d, 24, 100);
 //		Order o = new Order(d, 24, p.getRepairPrice("bop", RepairLevel.platinum), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse libero sapien, venenatis at dictum nec, mattis at risus. Sed hendrerit ");
+		s.addc("gaius", "caesar");
+		s.addp(0, d, 100);
+		s.addo(0, d, "bop", RepairLevel.silver, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse libero sapien, venenatis at dictum nec, mattis at risus. Sed hendrerit ");
 //		o.complete(d);
 		System.out.println(r);
 //		System.out.println(o);
@@ -39,6 +42,6 @@ public class Www {
 		s.addrp("hikergang", RepairLevel.platinum, 0, 0);
 		s.help();
 		s.printrp();
-		System.out.println(s.getSavefile());
+		System.out.println("Commands to recreate shop:\n" + s.getSavefile());
 	}
 }

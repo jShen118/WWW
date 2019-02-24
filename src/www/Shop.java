@@ -21,6 +21,7 @@ public class Shop {
 	
 	/*------------------commands-------------------------*/
 	//indented functions are not yet implemented
+	//checking that input is valid (for example, brand exists when making order) should be the job of IOHandler
 	public void help() {
 		String message = "├-[help]-----------------------------------------------------------------------------┤\n" +	
 				"　Commands:\n" +
@@ -53,9 +54,17 @@ public class Shop {
 		Customer c = new Customer(firstName, lastName);
 		customers.add(c);
 	};	//add customer
-		public void addo(int customerNumber, Date date, String brand, RepairLevel level, String comment) {};	//add order
+	public void addo(int customerNumber, Date date, String brand, RepairLevel level, String comment) {
+		RepairPrice p = priceTable.getRepairPrice(brand, level);
+		Order o = new Order(date, customerNumber, p, comment);	//Date date, int customerNumber, RepairPrice repairPrice, String comment)
+		transactions.add(o);
+	};	//add order
+	public void addp(int customerNumber, Date date, int amount) {
+		Payment p = new Payment(date, customerNumber, amount);
+		transactions.add(p);
+	}
 		public void comp(int orderNumber, Date completionDate) {};	//mark order completed
-		//comp next would be useful extra feature
+		//"complete next" would be useful extra feature
 	public void printrp() {
 		System.out.println(priceTable);
 	};	//print repair prices
@@ -64,6 +73,7 @@ public class Shop {
 		public void printo() {};	//print orders
 		public void printp() {};	//print payments
 		public void printt() {};	//print transactions
+		//receivables and statements can be calculated as they need to be printed, no need to store them
 		public void printr() {};	//print receivables
 		public void prints() {};	//print statements
 		/**
