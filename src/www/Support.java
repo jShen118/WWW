@@ -76,4 +76,37 @@ public class Support {
 	static public int levenshtein(String a, String b) {
 		return lev(a, a.length(), b, b.length());
 	}
+	
+	static public ArrayList<Transaction> customerTransactions(Customer c, ArrayList<Transaction> transactions) {
+            ArrayList<Transaction> toRet = new ArrayList<>();
+            int number = c.customerNumber;
+            for(Transaction t: transactions) {
+                if(t.customerNumber == number) {
+                    toRet.add(t);
+                }
+            }
+            return toRet;
+        } //returns ArrayList of Transactions of one specific customer
+        static public ArrayList<Order> orders(ArrayList<Transaction> transactions) {
+            ArrayList<Order> toReturn = new ArrayList<>();
+            for (Transaction t: transactions) {
+                if(t instanceof Order) {
+                    Order o = (Order) t;
+                    toReturn.add(o);
+                }
+            }
+            return toReturn;
+        } // returns ArrayList of any orders found in ArrayList of Transaction
+        
+        static public int transactionsSum(ArrayList<Transaction> transactions) {
+            int sum = 0;
+            for(Transaction t: transactions) {
+                if(t instanceof Order) {
+                    sum += t.amount;
+                } else {
+                    sum -= t.amount;
+                }
+            }
+            return sum;
+        } //returns the sum (indicated debt) of transactions 
 }
