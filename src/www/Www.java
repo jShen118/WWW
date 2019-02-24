@@ -32,5 +32,8 @@ public class Www {
 //		o.complete(d);
 		System.out.println(r);
 		System.out.println(o);
+		System.out.println(p.getRepairPrice("pop", RepairLevel.silver));
+		Shop s = new Shop();
+		s.help();
 	}
 }

@@ -42,7 +42,7 @@ public class PriceTable {
 	
 	public RepairPrice getRepairPrice(String brand, RepairLevel level) {
 		PriceTrio pricesOfBrand = table.get(brand);
-		return pricesOfBrand.getRepairPrice(level);
+		return pricesOfBrand == null ? null : pricesOfBrand.getRepairPrice(level);
 	}
 	
 	public String toString() {	//print the table

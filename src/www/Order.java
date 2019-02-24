@@ -30,24 +30,6 @@ public class Order extends Transaction {
 		return (completionDate != null);
 	}
 	
-	private String multilineComment(String comment, int buffer, int cutoffLength) {	//turns "Lorem ipsum dolor sit amet, consectetur adipiscing elit." into
-		String mc = "";																//"Lorem ipsum dolor sit amet,
-		String[] splitComment = Support.splitStringIntoParts(comment);				//consectetur adipiscing elit"
-		int rowLength = 0;
-		String stringBuffer = "\n　";
-		for (int i = 0; i < buffer; ++i) {
-			stringBuffer += " ";
-		}
-		for (int i = 0; i < splitComment.length; ++i) {
-			rowLength += splitComment[i].length() + 1;
-			mc += splitComment[i] + " ";
-			if (rowLength >= cutoffLength) {
-				rowLength = 0;
-				mc += stringBuffer;
-			}
-		}
-		return mc;
-	}
 	public String toString() {	//display information by order of relevancy
 		String toRet = "├-----------[Order]-----------┤\n";
 		String stringOrder = Support.bufferSpace(Integer.toString(orderNumber), 20);
@@ -75,7 +57,7 @@ public class Order extends Transaction {
 		String stringPrice = Support.bufferSpace("$" + Integer.toString(amount), 18);
 		toRet += "　Amount due:" + stringPrice + "\n";
 		
-		String stringComment = multilineComment(comment, 9, 15);
+		String stringComment = Support.multilineComment(comment, 9, 15);
 		toRet += "　Comment: " + stringComment + "\n";
 		return toRet;
 	}
