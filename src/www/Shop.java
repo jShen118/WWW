@@ -20,6 +20,7 @@ public class Shop {
 	}
 	
 	/*------------------commands-------------------------*/
+	//indented functions are not yet implemented
 	public void help() {
 		String message = "├-[help]-----------------------------------------------------------------------------┤\n" +	
 				"　Commands:\n" +
@@ -45,20 +46,27 @@ public class Shop {
 				"├------------------------------------------------------------------------------------┤";
 		System.out.println(message);
 	};	//print help
-	public void addrp(String brand, RepairLevel level, int price, int days) {};	//add repair price
-	public void addc(String firstName, String lastName) {};	//add customer
-	public void addo(int customerNumber, Date date, String brand, RepairLevel level, String comment) {};	//add order
-	public void comp(int orderNumber, Date completionDate) {};	//mark order completed
-	//comp next would be useful extra feature
-	public void printrp() {};	//print repair prices
-	public void printcnum() {};	//print customers by number
-	public void printcname() {};	//print customers by name
-	public void printo() {};	//print orders
-	public void printp() {};	//print payments
-	public void printt() {};	//print transactions
-	public void printr() {};	//print receivables
-	public void prints() {};	//print statements
-	public void readc(String filename) {};	//read commands from file
-	public void savebs(String filename) {};	//save bike shop to file
-	public void restorebs(String filename) {};	//restore a previously saved bike shop
+	public void addrp(String brand, RepairLevel level, int price, int days) {
+		priceTable.addRepairPrice(brand, level, price, days);
+	};	//add repair price
+	public void addc(String firstName, String lastName) {
+		Customer c = new Customer(firstName, lastName);
+		customers.add(c);
+	};	//add customer
+		public void addo(int customerNumber, Date date, String brand, RepairLevel level, String comment) {};	//add order
+		public void comp(int orderNumber, Date completionDate) {};	//mark order completed
+		//comp next would be useful extra feature
+	public void printrp() {
+		System.out.println(priceTable);
+	};	//print repair prices
+		public void printcnum() {};	//print customers by number
+		public void printcname() {};	//print customers by name
+		public void printo() {};	//print orders
+		public void printp() {};	//print payments
+		public void printt() {};	//print transactions
+		public void printr() {};	//print receivables
+		public void prints() {};	//print statements
+		public void readc(String filename) {};	//read commands from file
+		public void savebs(String filename) {};	//save bike shop to file
+		public void restorebs(String filename) {};	//restore a previously saved bike shop
 }

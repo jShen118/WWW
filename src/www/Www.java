@@ -34,6 +34,14 @@ public class Www {
 		System.out.println(o);
 		System.out.println(p.getRepairPrice("pop", RepairLevel.silver));
 		Shop s = new Shop();
+		s.addrp("megabike", RepairLevel.silver, 100, 5);
+		s.addrp("megabike", RepairLevel.gold, 150, 50);
+		s.addrp("megabike", RepairLevel.platinum, 200, 90);
+		s.addrp("bikergang", RepairLevel.silver, 10, 1);
+		s.addrp("bikergang", RepairLevel.gold, 20, 1);
+		s.addrp("bikergang", RepairLevel.platinum, 30, 1);
+		s.addrp("hikergang", RepairLevel.platinum, 0, 0);
 		s.help();
+		s.printrp();
 	}
 }
