@@ -43,5 +43,10 @@ public class Www {
 		s.help();
 		s.printrp();
 		System.out.println("Commands to recreate shop:\n" + s.getSavefile());
+		System.out.println(Support.levenshtein("kitten", "kitten"));	//same words, should be 0
+		System.out.println(Support.levenshtein("kitten", "mitten"));	//very similar words, should be 1
+		System.out.println(Support.levenshtein("kitten", "sitting"));	//kinda similar words, should be 3
+		System.out.println(Support.levenshtein("kitten", "britain"));	//not really similar, should be 4
+		System.out.println(Support.levenshtein("abcdefg", "hijklmn"));	//nothing similar about them at all, should be 7
 	}
 }

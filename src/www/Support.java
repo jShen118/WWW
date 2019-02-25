@@ -5,6 +5,8 @@
  */
 package www;
 
+import java.util.*;
+
 public class Support {
 	//these three functions take a string and buffer it with a character until it is of length "length"
 	//ie bufferSpace("test", 10) returns "      test"
