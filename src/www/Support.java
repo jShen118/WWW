@@ -78,14 +78,14 @@ public class Support {
 	}
 	
 	static public ArrayList<Transaction> customerTransactions(Customer c, ArrayList<Transaction> transactions) {
-            ArrayList<Transaction> toRet = new ArrayList<>();
+            ArrayList<Transaction> toReturn = new ArrayList<>();
             int number = c.customerNumber;
             for(Transaction t: transactions) {
                 if(t.customerNumber == number) {
-                    toRet.add(t);
+                    toReturn.add(t);
                 }
             }
-            return toRet;
+            return toReturn;
         } //returns ArrayList of Transactions of one specific customer
         static public ArrayList<Order> orders(ArrayList<Transaction> transactions) {
             ArrayList<Order> toReturn = new ArrayList<>();
@@ -97,7 +97,26 @@ public class Support {
             }
             return toReturn;
         } // returns ArrayList of any orders found in ArrayList of Transaction
+        static public ArrayList<Payment> payments(ArrayList<Transaction> transactions) {
+            ArrayList<Payment> toReturn = new ArrayList<>();
+            for (Transaction t: transactions) {
+                if(t instanceof Payment) {
+                    Payment o = (Payment) t;
+                    toReturn.add(o);
+                }
+            }
+            return toReturn;
+        } // returns ArrayList of any payments found in ArrayList of Transaction
         
+        static public int numComplete(ArrayList<Order> orders) {
+            int toReturn = 0;
+            for(Order o: orders) {
+                if(o.isComplete()) {
+                    toReturn++;
+                }
+            }
+            return toReturn;
+        }
         static public int transactionsSum(ArrayList<Transaction> transactions) {
             int sum = 0;
             for(Transaction t: transactions) {
@@ -109,4 +128,19 @@ public class Support {
             }
             return sum;
         } //returns the sum (indicated debt) of transactions 
+        
+        static public int ordersSum(ArrayList<Order> orders) {
+            int sum = 0;
+            for(Order o: orders) {
+                sum += o.amount;
+            }
+            return sum;
+        } //returns the sum of amounts of orders
+        static public int paymentsSum(ArrayList<Payment> payments) {
+            int sum = 0;
+            for(Payment p: payments) {
+                sum += p.amount;
+            }
+            return sum;
+        } //returns the sum of amounts of payments
 }
