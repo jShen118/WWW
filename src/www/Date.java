@@ -4,8 +4,7 @@
  * and open the template in the editor.
  */
 package www;
-
-public class Date {
+public class Date implements Comparable<Date> {
 	public int day;
 	public int month;
 	public int year;
@@ -60,4 +59,18 @@ public class Date {
 		newYear = this.year;
 		return new Date(newMonth, newDay, newYear);
 	}
+
+    @Override
+    public int compareTo(Date date) {//-1 is this date less than parameter, 0 is they are equal, 1 is this date is greater than parameter
+        if(year < date.year) {return -1;}
+        if(year > date.year) {return 1;}
+        //passes these two if statements if years are the same, month comparisons next
+        if(month < date.month) {return -1;}
+        if(month > date.month) {return 1;}
+        //passes these two if statements if months are the same, day comparisons next
+        if(day < date.day) {return -1;}
+        if(day > date.day) {return 1;}
+        //passes these two if statements if the two dates are the same, return 0
+        return 0;
+    }
 }
