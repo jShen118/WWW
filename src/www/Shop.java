@@ -69,12 +69,12 @@ public class Shop {
 		System.out.println(priceTable);
 	};	//print repair prices
 	
-	public void printcnum() { //prints customers by number
+	        public void printcnum() { //prints customers by number
             String toPrint = "├-[Customers by number]--------------------------------------------------------------┤\n";
             for(Customer c: customers) { //no ordering for customerNumber needed because ArrayList customers' first element is customer with number 1, second element is customer with number 2, so on and so forth
                 toPrint += customerInfo(c);
             } 
-            toPrint += "├------------------------------------------------------------------------------------┤";
+            toPrint += "\n├------------------------------------------------------------------------------------┤";
             System.out.println(toPrint);
         }
 	public void printcname() {//print customers by name
@@ -95,7 +95,7 @@ public class Shop {
             for(Customer c: customersByLastName) {
                 toPrint += customerInfo(c);
             }
-            toPrint += "├------------------------------------------------------------------------------------┤";
+            toPrint += "\n├------------------------------------------------------------------------------------┤";
             System.out.println(toPrint);
         };
 	
@@ -132,40 +132,55 @@ public class Shop {
                 String amountWithBuffer = Support.bufferSpace(Integer.toString(amount), 8);
                 toReturn += "\n│" + date + "--│" + typeWithBuffer + "│" + amountWithBuffer + "│" + status + "│";
             }
-            toReturn += "\n└--------┴-----------┴--------┘\n\n\n";
+            toReturn += "\n└--------┴-----------┴--------┴-----------┘\n\n\n";
             return toReturn;
         }
         
-        public void printo() { //prints table of all orders, past and pending; does not order by date yet because date is not comparable
-            String toPrint = "├[Orders]----------------------------------------------------------------------------┤";
+        public void printo() { //prints table of all orders (and individual reports), past and pending; does not order by date yet because date is not comparable
+            String toPrint = "├[Orders]-----------------------------------------------------------------------------┤";
             ArrayList<Order> orders = Support.orders((ArrayList<Transaction>) transactions);
             toPrint += "\n# of all orders: " + orders.size();
             toPrint += "\n# of incomplete orders: " + (orders.size() - Support.numComplete(orders));
             toPrint += "\nValue of all orders: $" + Support.ordersSum(orders);
-            toPrint += "\n┌[Date Made]┬[Amount]┬[Status]---┬[Completion Date]┐";
-            for(Order o: orders) { //fills in table with all orders
+            toPrint += "\n\nTable of all orders:";
+            toPrint += "\n*to see more specifics about an order scroll down to individual order reports";
+            toPrint += "\n┌[Order ID]┬[Date Made]┬[Amount]┬[Customer ID]┬[Status]---┬[Completion Date]┐";
+            for(Order o: orders) { //start of table construction
+                int orderID = o.orderNumber;
                 Date dateMade = o.dateMade;
                 int amount = o.amount;
+                int customerID = o.customerNumber;
                 String status;
                 Date completionDate = o.completionDate;
                 if(o.isComplete()) {
                     status = "  complete ";
                 } else {status = "incomplete ";}
                 
+                String orderIDWithBuffer = Support.bufferSpace(Integer.toString(orderID), 10);
+                String customerIDWithBuffer = Support.bufferSpace(Integer.toString(customerID), 13);
                 String amountWithBuffer = Support.bufferSpace(Integer.toString(amount), 8);
-                toPrint += "\n│" + dateMade + "│" + amountWithBuffer + "│" + status + "│" + "    " + completionDate + "    │";
+                String completionDateWithBuffer;
+                if(completionDate == null) {
+                    completionDateWithBuffer = "        -        ";
+                } else {completionDateWithBuffer = "    " + completionDate + "     ";}
+                toPrint += "\n│" + orderIDWithBuffer + "│" + dateMade + "│" + amountWithBuffer + "│" + customerIDWithBuffer + "│" + status + "│" + completionDateWithBuffer + "│";
             }
-            toPrint += "\n└-----------┴--------┴-----------┴----------------┘";
-            toPrint += "├------------------------------------------------------------------------------------┤";
+            toPrint += "\n└----------┴-----------┴--------┴-------------┴-----------┴----------------┘";//end of table construction
+            toPrint += "\n\nIndividual order Reports:";
+            for(Order o: orders) { //this for loop simply adds all order toString()s to toPrint. Expands on information in the table
+                toPrint += "\n" + o.toString();
+            }
+            toPrint += "\n├------------------------------------------------------------------------------------┤";
             System.out.println(toPrint);
         }
-        public void printp() { //prints table of payments
-            String toPrint = "├[Payments]--------------------------------------------------------------------------┤";
+        public void printp() { //prints table of payments and each individual report
+            String toPrint = "├[Payments]---------------------------------------------------------------------------┤";
             ArrayList<Payment> payments = Support.payments((ArrayList<Transaction>) transactions);
             toPrint += "\n# of all payments: " + payments.size();
             toPrint += "\nValue of all payments: $" + Support.paymentsSum(payments);
-            toPrint += "\n┌[Date]--┬[Amount]┬[Customer ID]┐";
-            for(Payment p: payments) {
+            toPrint += "\n\nTable of all payments:";
+            toPrint += "\n┌[Date]--┬[Amount]┬[Customer ID]┐"; //start of producing table
+            for(Payment p: payments) { 
                 Date date = p.dateMade;
                 int amount = p.amount;
                 int customerNumber = p.customerNumber;
@@ -174,13 +189,57 @@ public class Shop {
                 String customerNumberWithBuffer = Support.bufferSpace(Integer.toString(customerNumber), 13);
                 toPrint += "\n│" + date + "│" + amountWithBuffer + "│" + customerNumberWithBuffer + "│";
             }
-            toPrint += "\n└--------┴--------┴-------------┘";
-            toPrint += "├------------------------------------------------------------------------------------┤";
+            toPrint += "\n└--------┴--------┴-------------┘";//end of producing table
+            toPrint += "\n\nIndividual payment reports:";
+            for(Payment p: payments) { //this for loop simply adds all payment toString()s to toPrint. Kind of irrelevent because of table
+                toPrint += "\n" + p.toString();
+            }
+            toPrint += "\n├------------------------------------------------------------------------------------┤";
             System.out.println(toPrint);
         }
-		public void printt() {};	//print transactions
-		//receivables and statements can be calculated as they need to be printed, no need to store them
-		public void printr() {};	//print receivables
+	public void printt() {
+            String toPrint = "├[Transactions]-----------------------------------------------------------------------┤";
+            toPrint += "\n# of all transactions: " + transactions.size();
+            toPrint += "\nTotal debt to the tune-up business: $" + Support.transactionsSum((ArrayList<Transaction>) transactions);
+            toPrint += "\n\nTable of all transactions:";
+            toPrint += "\n┌[Date Made]┬[Type]-----┬[Amount]┬[Status]---┬[Customer ID]┐";//start of table construction
+            for(Transaction t: transactions) {
+                Date date = t.dateMade;
+                String type;
+                int amount = t.amount;
+                String status;
+                int customerID = t.customerNumber;
+                
+                if(t instanceof Order) {
+                    type = "Order";
+                    if(((Order) t).isComplete()) {
+                        status = "  complete ";
+                    } else {status = "incomplete ";}
+                } else {
+                    type = "Payment";
+                    status = "     -     ";
+                }
+                String dateWithBuffer = Support.bufferSpace(date.toString(), 11);
+                String typeWithBuffer = Support.bufferSpace(type, 11);
+                String amountWithBuffer = Support.bufferSpace(Integer.toString(amount), 8);
+                String customerIDWithBuffer = Support.bufferSpace(Integer.toString(customerID), 13);
+                toPrint += "\n│" + dateWithBuffer + "│" + typeWithBuffer + "│" + amountWithBuffer + "│" + status + "│" + customerIDWithBuffer + "│";
+            }
+            toPrint += "\n└-----------┴-----------┴--------┴-----------┴-------------┘";//end of table construction
+            toPrint += "\n├------------------------------------------------------------------------------------┤";
+            System.out.println(toPrint);
+        };	//print transactions
+	public void printr() {
+            String toPrint = "├[Accounts Receivables]--------------------------------------------------------------┤";
+            for(Customer c: customers) {
+                ArrayList<Transaction> customerTransactions = Support.customerTransactions(c, (ArrayList<Transaction>) transactions);
+                int customerDebt = Support.transactionsSum(customerTransactions);
+                if(customerDebt > 0) {
+                    toPrint += "\n" + c.toString() + " money due to company: $" + customerDebt;
+                }
+            }
+            toPrint += "\n├------------------------------------------------------------------------------------┤";
+        };	//print receivables
 		public void prints() {};	//print statements
 		/**
 		 * the actual save/load/read should be handled by IOHandler
