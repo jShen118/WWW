@@ -54,13 +54,13 @@ public class IO {
 			break;
 			case("printcname"): shop.printcname();
 			break;
-			case("printo"): 
+			case("printo"): shop.printo();
 			break;
-			case("printp"):
+			case("printp"): shop.printp();
 			break;
-			case("printt"):
+			case("printt"): shop.printt();
 			break;
-			case("printr"):
+			case("printr"): shop.printr();
 			break;
 			case("prints"):
 			break;
