@@ -69,7 +69,7 @@ public class Shop {
 		System.out.println(priceTable);
 	};	//print repair prices
 	
-	        public void printcnum() { //prints customers by number
+	public void printcnum() { //prints customers by number
             String toPrint = "├-[Customers by number]--------------------------------------------------------------┤\n";
             for(Customer c: customers) { //no ordering for customerNumber needed because ArrayList customers' first element is customer with number 1, second element is customer with number 2, so on and so forth
                 toPrint += customerInfo(c);
@@ -112,25 +112,29 @@ public class Shop {
             toReturn += "\ntotal value of payments: $" + Support.paymentsSum(customerPayments);
             toReturn += "\ndebt to company: $" + Support.transactionsSum(customerTransactions) + "\n\n";
             toReturn += c.firstName + " " + c.lastName + "'s Transactions:\n";
-            toReturn += "┌[Date]--┬[Type]-----┬[Amount]┬[Status]---┐";
+            toReturn += "┌[Date]--┬[Type]-----┬[Amount]┬[Status]---┐"; // │8│11│8│11│
+            customerTransactions = Support.tSortedByDate(customerTransactions);
             for(Transaction t: customerTransactions) { //this for loop is for producing the table
                 Date date = t.dateMade;
                 String type;
                 int amount = t.amount;
                 String status;
-                if(t instanceof Order) {
+                if(t instanceof Order) { //initializes type and status
                     type = "Order";
                     if(((Order) t).isComplete()) {
-                        status = "  complete ";
-                    } else {status = "incomplete ";}
-                } else {
+                        status = "complete ";
+                    } else {status = "incomplete";}
+                } 
+                else {
                     type = "Payment";
-                    status = "     -     ";
+                    status = "-";
                 }
-                    
-                String typeWithBuffer = Support.bufferSpace(type, 11);
-                String amountWithBuffer = Support.bufferSpace(Integer.toString(amount), 8);
-                toReturn += "\n│" + date + "--│" + typeWithBuffer + "│" + amountWithBuffer + "│" + status + "│";
+                
+                //date does not need buffer since it is always 8 characters long, the width of the column
+                String typeWithBuffer = Support.bufferSpaceCentered(type, 11);
+                String amountWithBuffer = Support.bufferSpaceCentered(Integer.toString(amount), 8);
+                String statusWithBuffer = Support.bufferSpaceCentered("-", 11);
+                toReturn += "\n│" + date + "│" + typeWithBuffer + "│" + amountWithBuffer + "│" + statusWithBuffer + "│";
             }
             toReturn += "\n└--------┴-----------┴--------┴-----------┘\n\n\n";
             return toReturn;
@@ -144,8 +148,9 @@ public class Shop {
             toPrint += "\nValue of all orders: $" + Support.ordersSum(orders);
             toPrint += "\n\nTable of all orders:";
             toPrint += "\n*to see more specifics about an order scroll down to individual order reports";
-            toPrint += "\n┌[Order ID]┬[Date Made]┬[Amount]┬[Customer ID]┬[Status]---┬[Completion Date]┐";
-            for(Order o: orders) { //start of table construction
+            toPrint += "\n┌[Order ID]┬[Date Made]┬[Amount]┬[Customer ID]┬[Status]---┬[Completion Date]┐"; // │10│11│8│13│11│17│
+            orders = Support.oSortedByDate(orders);
+            for(Order o: orders) { //this for loop is for producing the table
                 int orderID = o.orderNumber;
                 Date dateMade = o.dateMade;
                 int amount = o.amount;
@@ -153,17 +158,16 @@ public class Shop {
                 String status;
                 Date completionDate = o.completionDate;
                 if(o.isComplete()) {
-                    status = "  complete ";
-                } else {status = "incomplete ";}
+                    status = "complete";
+                } else {status = "incomplete";}
                 
-                String orderIDWithBuffer = Support.bufferSpace(Integer.toString(orderID), 10);
-                String customerIDWithBuffer = Support.bufferSpace(Integer.toString(customerID), 13);
-                String amountWithBuffer = Support.bufferSpace(Integer.toString(amount), 8);
-                String completionDateWithBuffer;
-                if(completionDate == null) {
-                    completionDateWithBuffer = "        -        ";
-                } else {completionDateWithBuffer = "    " + completionDate + "     ";}
-                toPrint += "\n│" + orderIDWithBuffer + "│" + dateMade + "│" + amountWithBuffer + "│" + customerIDWithBuffer + "│" + status + "│" + completionDateWithBuffer + "│";
+                String orderIDWithBuffer = Support.bufferSpaceCentered(Integer.toString(orderID), 10);
+                String dateMadeWithBuffer = Support.bufferSpaceCentered(dateMade.toString(), 11);
+                String amountWithBuffer = Support.bufferSpaceCentered(Integer.toString(amount), 8);
+                String customerIDWithBuffer = Support.bufferSpaceCentered(Integer.toString(customerID), 13);
+                String statusWithBuffer = Support.bufferSpaceCentered(status, 11);
+                String completionDateWithBuffer = Support.bufferSpaceCentered(completionDate.toString(), 17);
+                toPrint += "\n│" + orderIDWithBuffer + "│" + dateMadeWithBuffer + "│" + amountWithBuffer + "│" + customerIDWithBuffer + "│" + statusWithBuffer + "│" + completionDateWithBuffer + "│";
             }
             toPrint += "\n└----------┴-----------┴--------┴-------------┴-----------┴----------------┘";//end of table construction
             toPrint += "\n\nIndividual order Reports:";
@@ -179,14 +183,16 @@ public class Shop {
             toPrint += "\n# of all payments: " + payments.size();
             toPrint += "\nValue of all payments: $" + Support.paymentsSum(payments);
             toPrint += "\n\nTable of all payments:";
-            toPrint += "\n┌[Date]--┬[Amount]┬[Customer ID]┐"; //start of producing table
+            toPrint += "\n┌[Date]--┬[Amount]┬[Customer ID]┐"; // │8│8│13│
+            payments = Support.pSortedByDate(payments); //this for loop is for producing the table
             for(Payment p: payments) { 
                 Date date = p.dateMade;
                 int amount = p.amount;
                 int customerNumber = p.customerNumber;
                 
-                String amountWithBuffer = Support.bufferSpace(Integer.toString(amount), 8);
-                String customerNumberWithBuffer = Support.bufferSpace(Integer.toString(customerNumber), 13);
+                //date does not need buffer since the date column is 8 spaces wide and date is always 8 digits
+                String amountWithBuffer = Support.bufferSpaceCentered(Integer.toString(amount), 8);
+                String customerNumberWithBuffer = Support.bufferSpaceCentered(Integer.toString(customerNumber), 13);
                 toPrint += "\n│" + date + "│" + amountWithBuffer + "│" + customerNumberWithBuffer + "│";
             }
             toPrint += "\n└--------┴--------┴-------------┘";//end of producing table
@@ -202,27 +208,29 @@ public class Shop {
             toPrint += "\n# of all transactions: " + transactions.size();
             toPrint += "\nTotal debt to the tune-up business: $" + Support.transactionsSum((ArrayList<Transaction>) transactions);
             toPrint += "\n\nTable of all transactions:";
-            toPrint += "\n┌[Date Made]┬[Type]-----┬[Amount]┬[Status]---┬[Customer ID]┐";//start of table construction
-            for(Transaction t: transactions) {
+            toPrint += "\n┌[Date Made]┬[Type]-----┬[Amount]┬[Status]---┬[Customer ID]┐";// │11│11│8│11│13│
+            for(Transaction t: transactions) { //this for loop is for producing the table
                 Date date = t.dateMade;
                 String type;
                 int amount = t.amount;
                 String status;
                 int customerID = t.customerNumber;
-                
-                if(t instanceof Order) {
+                if(t instanceof Order) { //initializes type and status
                     type = "Order";
                     if(((Order) t).isComplete()) {
-                        status = "  complete ";
-                    } else {status = "incomplete ";}
-                } else {
+                        status = "complete ";
+                    } else {status = "incomplete";}
+                } 
+                else {
                     type = "Payment";
-                    status = "     -     ";
+                    status = "-";
                 }
-                String dateWithBuffer = Support.bufferSpace(date.toString(), 11);
-                String typeWithBuffer = Support.bufferSpace(type, 11);
-                String amountWithBuffer = Support.bufferSpace(Integer.toString(amount), 8);
-                String customerIDWithBuffer = Support.bufferSpace(Integer.toString(customerID), 13);
+                
+                String dateWithBuffer = Support.bufferSpaceCentered(date.toString(), 11);
+                String typeWithBuffer = Support.bufferSpaceCentered(type, 11);
+                String amountWithBuffer = Support.bufferSpaceCentered(Integer.toString(amount), 8);
+                String statusWithBuffer = Support.bufferSpaceCentered(status, 11);
+                String customerIDWithBuffer = Support.bufferSpaceCentered(Integer.toString(customerID), 13);
                 toPrint += "\n│" + dateWithBuffer + "│" + typeWithBuffer + "│" + amountWithBuffer + "│" + status + "│" + customerIDWithBuffer + "│";
             }
             toPrint += "\n└-----------┴-----------┴--------┴-----------┴-------------┘";//end of table construction
@@ -231,13 +239,29 @@ public class Shop {
         };	//print transactions
 	public void printr() {
             String toPrint = "├[Accounts Receivables]--------------------------------------------------------------┤";
-            for(Customer c: customers) {
+            ArrayList<Customer> customersWithDebt = new ArrayList<>();
+            HashMap<Customer, Integer> map = new HashMap<>(); //keeps track of customer and corresponding debt
+            for(Customer c: customers) { // this for loop finds customers with debt
                 ArrayList<Transaction> customerTransactions = Support.customerTransactions(c, (ArrayList<Transaction>) transactions);
                 int customerDebt = Support.transactionsSum(customerTransactions);
                 if(customerDebt > 0) {
-                    toPrint += "\n" + c.toString() + " money due to company: $" + customerDebt;
+                    customersWithDebt.add(c);
+                    map.put(c, customerDebt);
                 }
             }
+            
+            toPrint += "\n┌[Name]------------┬-[ID]-┬[Debt to Company]┐";// │18│6│17│
+            for(Customer c: customersWithDebt) { //start of table filling
+                String name = c.firstName + " " + c.lastName;
+                int customerID = c.customerNumber;
+                int debt = map.get(c);
+                
+                String nameWithBuffer = Support.bufferSpaceCentered(name, 15);
+                String customerIDWithBuffer = Support.bufferSpaceCentered(Integer.toString(customerID), 6);
+                String debtWithBuffer = Support.bufferSpaceCentered(Integer.toString(debt), 17);
+                toPrint += "\n│" + nameWithBuffer + "│" + customerIDWithBuffer + "│" + debtWithBuffer + "│";
+            }
+            toPrint += "\n└------------------┴------┴-----------------┘";// end of table construction
             toPrint += "\n├------------------------------------------------------------------------------------┤";
         };	//print receivables
 		public void prints() {};	//print statements
