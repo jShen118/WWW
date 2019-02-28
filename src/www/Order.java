@@ -6,7 +6,7 @@
 package www;
 
 public class Order extends Transaction {
-	static private int orderNumberDispenser	= 0;	//this is used to give orders unique orderNumbers
+	static public int orderNumberDispenser	= 0;	//this is used to give orders unique orderNumbers
 	public int orderNumber;	//the order's unique ID
 	public RepairPrice repairPrice;
 	public String comment;

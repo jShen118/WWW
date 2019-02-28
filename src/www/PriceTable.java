@@ -56,6 +56,25 @@ public class PriceTable {
 		return brands;
 	}
 	
+	public String toStringSingleBrand(String brand) {
+		int longestBrandLength = Math.max(7, brand.length());
+		String brandNameHorizontalBar = "";
+		String brandNameHorizontalBarWithTitle = "[Brands]";
+		for (int i = 0; i <= longestBrandLength; ++i) {
+			brandNameHorizontalBar += "-";
+			if (i > 7) {
+				brandNameHorizontalBarWithTitle += "-";
+			}
+		}
+		String toRet = "┌" + brandNameHorizontalBarWithTitle + "┬[Silver]-------------┬[Gold]---------------┬[Platinum]-----------┐\n";
+		String sbrand = brand;
+		while (sbrand.length() < longestBrandLength) {
+			sbrand += " ";
+		}
+		toRet += "│" + sbrand + " │" + table.get(brand).toString() + "\n";
+		toRet += "└" + brandNameHorizontalBar + "┴---------------------┴---------------------┴---------------------┘\n";
+		return toRet;
+	}
 	public String toString() {	//print the table
 		int longestBrandLength = 7;	//first, loop through brands to find the one w/ longest name
 		for (String brand : table.keySet()) {

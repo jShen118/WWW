@@ -6,7 +6,7 @@
 package www;
 
 public class Customer {
-	static private int customerNumberDispenser = 0;	//used to give unique customer IDs
+	static public int customerNumberDispenser = 0;	//used to give unique customer IDs
 	public int customerNumber;	//the ID of this specific customer
 	public String firstName;
 	public String lastName;
@@ -18,7 +18,7 @@ public class Customer {
 	}
 	
 	public String toString() {
-		return firstName + " " + lastName + "(customer #" + Integer.toString(customerNumber) + ")";
+		return firstName + " " + lastName + " (customer #" + Integer.toString(customerNumber) + ")";
 		//example: "John Smith (customer #193)"
 	}
 	public String toCommand() {

@@ -57,9 +57,11 @@ public class Shop {
 	};	//print help
 	public void addrp(String brand, RepairLevel level, int price, int days) {
 		priceTable.addRepairPrice(brand, level, price, days);
+		System.out.println(priceTable);
 	};	//add repair price
 	public void addc(String firstName, String lastName) {
 		Customer c = new Customer(firstName, lastName);
+		System.out.println("→added customer " + c);
 		customers.add(c);
 	};	//add customer
 	public void addo(int customerNumber, Date date, String brand, RepairLevel level, String comment) {

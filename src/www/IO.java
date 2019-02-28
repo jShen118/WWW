@@ -1,3 +1,10 @@
+/**
+ * on arrows
+ * > marks user input (>addrp brand gold 2 3)
+ * → marks non-error output (→added customer Joe Johnson #2512)
+ * » marks error (»invalid command)
+ */
+
 
 package www;
 import java.util.*;
@@ -101,7 +108,7 @@ public class IO {
 				String brand = args[1];
 				String brandWarning = getBrandAdditionWarning(brand, true);
 				if (!brandWarning.equals("")) {
-					System.out.println("»note: " + brandWarning);
+					System.out.println("→note: " + brandWarning);
 					//break;	//there are situations where you want to break for an invalid brand but this is CERTAINLY not one of them...
 				}
 				//retrieve level, check if it is correct
@@ -122,8 +129,10 @@ public class IO {
 				shop.addrp(brand, level, price, days);
 				break;
 			case("addc"):
-				System.out.println("IMPLEMENTED UNSAFELY");
-				shop.addc(Support.splitStringIntoParts(command)[1], Support.splitStringIntoParts(command)[2]);
+				if (!checkForNumArgs(args, 3, false)) {
+					break;
+				}
+				shop.addc(args[1], args[2]);
 				break;
 			case("addo"): 
 				System.out.println("UNIMPLEMENTED");
