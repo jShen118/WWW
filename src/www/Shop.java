@@ -19,6 +19,14 @@ public class Shop {
 		priceTable = new PriceTable();
 	}
 	
+	public boolean doesTableContainBrand(String brand) {
+		return priceTable.containsBrand(brand);
+	}
+	//this returns all brands
+	public ArrayList<String> getAllBrands() {
+		return priceTable.getAllBrands();
+	}
+	
 	/*------------------commands-------------------------*/
 	//indented functions are not yet implemented
 	//checking that input is valid (for example, brand exists when making order) should be the job of IOHandler
@@ -70,13 +78,13 @@ public class Shop {
 	};	//print repair prices
 	
 	public void printcnum() { //prints customers by number
-            String toPrint = "├-[Customers by number]--------------------------------------------------------------┤\n";
-            for(Customer c: customers) { //no ordering for customerNumber needed because ArrayList customers' first element is customer with number 1, second element is customer with number 2, so on and so forth
-                toPrint += customerInfo(c);
-            } 
-            toPrint += "\n├------------------------------------------------------------------------------------┤";
-            System.out.println(toPrint);
-        }
+        String toPrint = "├-[Customers by number]--------------------------------------------------------------┤\n";
+        for(Customer c: customers) { //no ordering for customerNumber needed because ArrayList customers' first element is customer with number 1, second element is customer with number 2, so on and so forth
+            toPrint += customerInfo(c);
+        } 
+        toPrint += "\n├------------------------------------------------------------------------------------┤";
+        System.out.println(toPrint);
+    }
 	public void printcname() {//print customers by name
             String toPrint = "├-[Customers by alphabetical order of last names]------------------------------------┤\n";
             ArrayList<String> lastNames = new ArrayList<>();

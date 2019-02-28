@@ -9,7 +9,7 @@ import java.util.*;
 
 public class Support {
 	//these three functions take a string and buffer it with a character until it is of length "length"
-	//ie bufferSpace("test", 10) returns "      test"
+	//ie bufferSpace("test", 10) returns "	  test"
 	static public String bufferSpace(String toBuffer, int length) {
 		while (toBuffer.length() < length) {
 			toBuffer = " " + toBuffer;
@@ -17,20 +17,20 @@ public class Support {
 		return toBuffer;
 	}
 	static public String bufferSpaceCentered(String toBuffer, int length) {
-            double bufferLength = (length - toBuffer.length()) / 2;
-            String buffer = "";
-            if(bufferLength % 1 == 0) { //executes inside if bufferLength is not an integer
-                return spaces((int) bufferLength) + toBuffer + spaces(((int) bufferLength) + 1);
-            } //returns (bufferLength - "1/2 space") + toBuffer + (bufferLength + "1/2 space")
-            return spaces((int) bufferLength) + toBuffer + spaces((int) bufferLength);
-        }
-        static public String spaces(int length) {
-            String toReturn = "";
-            for(int n = 1; n <= length; n++) {
-                toReturn = toReturn + " ";
-            }
-            return toReturn;
-        }
+			double bufferLength = (length - toBuffer.length()) / 2;
+			String buffer = "";
+			if(bufferLength % 1 == 0) { //executes inside if bufferLength is not an integer
+				return spaces((int) bufferLength) + toBuffer + spaces(((int) bufferLength) + 1);
+			} //returns (bufferLength - "1/2 space") + toBuffer + (bufferLength + "1/2 space")
+			return spaces((int) bufferLength) + toBuffer + spaces((int) bufferLength);
+		}
+		static public String spaces(int length) {
+			String toReturn = "";
+			for(int n = 1; n <= length; n++) {
+				toReturn = toReturn + " ";
+			}
+			return toReturn;
+		}
 	static public String bufferZero(String toBuffer, int length) {
 		while (toBuffer.length() < length) {
 			toBuffer = "0" + toBuffer;
@@ -95,82 +95,82 @@ public class Support {
 	}
 	
 	static public ArrayList<Transaction> customerTransactions(Customer c, ArrayList<Transaction> transactions) {
-            ArrayList<Transaction> toReturn = new ArrayList<>();
-            int number = c.customerNumber;
-            for(Transaction t: transactions) {
-                if(t.customerNumber == number) {
-                    toReturn.add(t);
-                }
-            }
-            return toReturn;
-        } //returns ArrayList of Transactions of one specific customer
-        static public ArrayList<Order> orders(ArrayList<Transaction> transactions) {
-            ArrayList<Order> toReturn = new ArrayList<>();
-            for (Transaction t: transactions) {
-                if(t instanceof Order) {
-                    Order o = (Order) t;
-                    toReturn.add(o);
-                }
-            }
-            return toReturn;
-        } // returns ArrayList of any orders found in ArrayList of Transaction
-        static public ArrayList<Payment> payments(ArrayList<Transaction> transactions) {
-            ArrayList<Payment> toReturn = new ArrayList<>();
-            for (Transaction t: transactions) {
-                if(t instanceof Payment) {
-                    Payment o = (Payment) t;
-                    toReturn.add(o);
-                }
-            }
-            return toReturn;
-        } // returns ArrayList of any payments found in ArrayList of Transaction
-        
-        static public int numComplete(ArrayList<Order> orders) {
-            int toReturn = 0;
-            for(Order o: orders) {
-                if(o.isComplete()) {
-                    toReturn++;
-                }
-            }
-            return toReturn;
-        }
-        static public int transactionsSum(ArrayList<Transaction> transactions) {
-            int sum = 0;
-            for(Transaction t: transactions) {
-                if(t instanceof Order) {
-                    sum += t.amount;
-                } else {
-                    sum -= t.amount;
-                }
-            }
-            return sum;
-        } //returns the sum (indicated debt) of transactions 
-        
-        static public int ordersSum(ArrayList<Order> orders) {
-            int sum = 0;
-            for(Order o: orders) {
-                sum += o.amount;
-            }
-            return sum;
-        } //returns the sum of amounts of orders
-        static public int paymentsSum(ArrayList<Payment> payments) {
-            int sum = 0;
-            for(Payment p: payments) {
-                sum += p.amount;
-            }
-            return sum;
-        } //returns the sum of amounts of payments
+		ArrayList<Transaction> toReturn = new ArrayList<>();
+		int number = c.customerNumber;
+		for(Transaction t: transactions) {
+			if(t.customerNumber == number) {
+				toReturn.add(t);
+			}
+		}
+		return toReturn;
+	} //returns ArrayList of Transactions of one specific customer
+	static public ArrayList<Order> orders(ArrayList<Transaction> transactions) {
+		ArrayList<Order> toReturn = new ArrayList<>();
+		for (Transaction t: transactions) {
+			if(t instanceof Order) {
+				Order o = (Order) t;
+				toReturn.add(o);
+			}
+		}
+		return toReturn;
+	} // returns ArrayList of any orders found in ArrayList of Transaction
+	static public ArrayList<Payment> payments(ArrayList<Transaction> transactions) {
+		ArrayList<Payment> toReturn = new ArrayList<>();
+		for (Transaction t: transactions) {
+			if(t instanceof Payment) {
+				Payment o = (Payment) t;
+				toReturn.add(o);
+			}
+		}
+		return toReturn;
+	} // returns ArrayList of any payments found in ArrayList of Transaction
+		
+	static public int numComplete(ArrayList<Order> orders) {
+		int toReturn = 0;
+		for(Order o: orders) {
+			if(o.isComplete()) {
+				toReturn++;
+			}
+		}
+		return toReturn;
+	}
+	static public int transactionsSum(ArrayList<Transaction> transactions) {
+		int sum = 0;
+		for(Transaction t: transactions) {
+			if(t instanceof Order) {
+				sum += t.amount;
+			} else {
+				sum -= t.amount;
+			}
+		}
+		return sum;
+	} //returns the sum (indicated debt) of transactions 
 	
+	static public int ordersSum(ArrayList<Order> orders) {
+		int sum = 0;
+		for(Order o: orders) {
+			sum += o.amount;
+		}
+		return sum;
+	} //returns the sum of amounts of orders
+	static public int paymentsSum(ArrayList<Payment> payments) {
+		int sum = 0;
+		for(Payment p: payments) {
+			sum += p.amount;
+		}
+		return sum;
+	} //returns the sum of amounts of payments
+
 	static public ArrayList<Transaction> tSortedByDate(ArrayList<Transaction> transactions) {
-            Collections.sort(transactions, Collections.reverseOrder());
-            return transactions;
-        } //returns transactions from latest to oldest
-        static public ArrayList<Order> oSortedByDate(ArrayList<Order> orders) {
-            Collections.sort(orders, Collections.reverseOrder());
-            return orders;
-        } //returns orders from latest to oldest
-        static public ArrayList<Payment> pSortedByDate(ArrayList<Payment> payments) {
-            Collections.sort(payments, Collections.reverseOrder());
-            return payments;
-        } //returns payments from latest to oldest
+		Collections.sort(transactions, Collections.reverseOrder());
+		return transactions;
+	} //returns transactions from latest to oldest
+	static public ArrayList<Order> oSortedByDate(ArrayList<Order> orders) {
+		Collections.sort(orders, Collections.reverseOrder());
+		return orders;
+	} //returns orders from latest to oldest
+	static public ArrayList<Payment> pSortedByDate(ArrayList<Payment> payments) {
+		Collections.sort(payments, Collections.reverseOrder());
+		return payments;
+	} //returns payments from latest to oldest
 }

@@ -9,6 +9,7 @@ public class IO {
 	private ArrayList<String> validCommands;	//a list of valid commands to be used for suggesting alternatives
 	
 	IO() {
+		shop = new Shop();
 		s = new Scanner(System.in);
 		validCommands = new ArrayList<>();
 		validCommands.add("quit");
@@ -31,51 +32,153 @@ public class IO {
 		validCommands.add("restorebs");
 	}
 	
+	//ensures that the correct number of args is passed
+	//canHaveMore = true will make it so that you can have more than length (for comments)
+	//prints an error message if bad
+	private boolean checkForNumArgs(String[] args, int length, boolean canHaveMore) {
+		boolean result = (args.length == length) || (args.length > length && canHaveMore);
+		if (!result) {
+			String manyOrFew = args.length > length ? "many" : "few";
+			System.out.println("»Too " + manyOrFew + " parameters provided (expected " + (length - 1) + ", received " + (args.length - 1) + ")");
+		}
+		return result;
+	}
+	//suggests strings similar to "string" from "compareWith", with similarity being defined by "maxLev"
+	//the higher the maxLev, the less picky the method will be
+	private String getSimilarStrings(String string, ArrayList<String> compareWith, int maxLev) {
+		ArrayList<String> brands = compareWith;
+		ArrayList<String> similarBrands = new ArrayList<>();
+		//loop through the shop's brands, note all the similar ones
+		for (int i = 0; i < brands.size(); ++i) {
+			if (Support.levenshtein(string, brands.get(i)) <= maxLev) {
+				similarBrands.add(brands.get(i));
+			}
+		}
+		//construct into a readable string
+		if (similarBrands.isEmpty()) {
+			return "";
+		}
+		String toRet = "Did you mean ";
+		for (int i = 0; i < similarBrands.size(); ++i) {
+			toRet += "\"" + similarBrands.get(i) + "\"";
+			if (i == similarBrands.size() - 1) {
+				toRet += "?";
+			} else if (i == similarBrands.size() - 2) {
+				toRet += " or ";
+			} else {
+				toRet += ", ";
+			}
+		}
+		return toRet;
+	}
+	//this takes a brand and returns a warning if it does not exist in the shop.
+	private String getBrandAdditionWarning(String brand, boolean add) {
+		if (!shop.doesTableContainBrand(brand)) {
+			String initialMessage = (!add ? "brand \"" + brand + "\" does not exist. " : "you are adding a new brand, \"" + brand + "\". ");
+			String warning = initialMessage + getSimilarStrings(brand, shop.getAllBrands(), 3);
+			return warning;
+		}
+		return "";
+	}
+	
 	//this function takes a command and executes it. If it is restoring a save file, 
 	//isRestoreMode is set to true and it can execute the rncn and rnom commands
 	//returns true on "quit", false on anything else. This lets it communicate to run() when it is time to exit.
 	private boolean executeCommand(String command, boolean isRestoreMode) {
-		switch(Support.splitStringIntoParts(command)[0]){
-			case("help"): shop.help();
-			break;
-			case("addrp"): shop.addrp(Support.splitStringIntoParts(command)[1], hlevel(Support.splitStringIntoParts(command)[2]),Integer.parseInt(Support.splitStringIntoParts(command)[3]), Integer.parseInt(Support.splitStringIntoParts(command)[4]));
-			break;
-			case("addc"): shop.addc(Support.splitStringIntoParts(command)[1], Support.splitStringIntoParts(command)[2]);
-			break;
-			case("addo"): shop.addo(Integer.parseInt(Support.splitStringIntoParts(command)[1]), Support.splitStringIntoParts(command)[2], Support.splitStringIntoParts(command)[3], Support.splitStringIntoParts(command)[4], Support.splitStringIntoParts(command)[5]);
-			break;
-			case("addp"): shop.addp(Integer.parseInt(Support.splitStringIntoParts(command)[1]), Support.splitStringIntoParts(command)[2],Integer.parseInt(Support.splitStringIntoParts(command)[3]));
-			break;
+		String[] args = Support.splitStringIntoParts(command);	//args[0] is the name of the command, rest is arguments
+		switch(args[0]){
+			case("quit"):
+				return true;
+			case("help"):
+				shop.help();
+				break;
+			case("addrp"):
+				//check for correct number of arguments
+				if (!checkForNumArgs(args, 5, false)) {
+					break;
+				}
+				//retrieve brand, cancel and print warning if it is invalid
+				String brand = args[1];
+				String brandWarning = getBrandAdditionWarning(brand, true);
+				if (!brandWarning.equals("")) {
+					System.out.println("»note: " + brandWarning);
+					//break;	//there are situations where you want to break for an invalid brand but this is CERTAINLY not one of them...
+				}
+				//retrieve level, check if it is correct
+				RepairLevel level = stringToLevel(args[2]);
+				if (level == null) {
+					break;
+				}
+				//retrieve price, check if it is correct
+				Integer price = stringToInt(args[3]);
+				if (price == null) {
+					break;
+				}
+				//retrieve days, check if it is correct
+				Integer days = stringToInt(args[4]);
+				if (days == null) {
+					break;
+				}
+				shop.addrp(brand, level, price, days);
+				break;
+			case("addc"):
+				System.out.println("IMPLEMENTED UNSAFELY");
+				shop.addc(Support.splitStringIntoParts(command)[1], Support.splitStringIntoParts(command)[2]);
+				break;
+			case("addo"): 
+				System.out.println("UNIMPLEMENTED");
+//				shop.addo(Integer.parseInt(Support.splitStringIntoParts(command)[1]), Support.splitStringIntoParts(command)[2], Support.splitStringIntoParts(command)[3], Support.splitStringIntoParts(command)[4], Support.splitStringIntoParts(command)[5]);
+				break;
+			case("addp"): 
+				System.out.println("UNIMPLEMENTED");
+//				shop.addp(Integer.parseInt(Support.splitStringIntoParts(command)[1]), Support.splitStringIntoParts(command)[2],Integer.parseInt(Support.splitStringIntoParts(command)[3]));
+				break;
 			case("comp"):
-			break;
-			case("printrp"): shop.printrp();
-			break;
-			case("printcnum"): shop.printcnum();
-			break;
-			case("printcname"): shop.printcname();
-			break;
-			case("printo"): shop.printo();
-			break;
-			case("printp"): shop.printp();
-			break;
-			case("printt"): shop.printt();
-			break;
-			case("printr"): shop.printr();
-			break;
+				System.out.println("UNIMPLEMENTED");
+				break;
+			case("printrp"): 
+				shop.printrp();
+				break;
+			case("printcnum"): 
+				shop.printcnum();
+				break;
+			case("printcname"): 
+				shop.printcname();
+				break;
+			case("printo"): 
+				shop.printo();
+				break;
+			case("printp"): 
+				shop.printp();
+				break;
+			case("printt"): 
+				shop.printt();
+				break;
+			case("printr"): 
+				shop.printr();
+				break;
 			case("prints"):
-			break;
+				System.out.println("UNIMPLEMENTED");
+				break;
 			case("readc"):
-			break;
+				System.out.println("UNIMPLEMENTED");
+				break;
 			case("savebs"):
-			break;
+				System.out.println("UNIMPLEMENTED");
+				break;
 			case("restorebs"):
-			break;
+				System.out.println("UNIMPLEMENTED");
+				break;
+			default:
+				System.out.println("»unknown command. Type \"help\" for help. " + getSimilarStrings(args[0], validCommands, 2));
+				break;
 		}
+		return false;
 	}
 	
 	//this function waits for the user to input a command and then returns it
 	private String getCommand() {
-		System.out.print("\n>");
+		System.out.print(">");
 		return s.nextLine();
 	}
 	
@@ -127,7 +230,8 @@ public class IO {
 		try {
 			Integer.parseInt(string);
 		} catch(NumberFormatException | NullPointerException e) {
-			//if it can't, return null
+			//if it can't, return null and warn
+			System.out.println("»\"" + string + "\" is not a valid number");
 			return null;
 		}
 		//else, return the int

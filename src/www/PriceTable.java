@@ -44,6 +44,17 @@ public class PriceTable {
 		PriceTrio pricesOfBrand = table.get(brand);
 		return pricesOfBrand == null ? null : pricesOfBrand.getRepairPrice(level);
 	}
+	public boolean containsBrand(String brand) {
+		PriceTrio pricesOfBrand = table.get(brand);
+		return pricesOfBrand != null;
+	}
+	public ArrayList<String> getAllBrands() {
+		ArrayList<String> brands = new ArrayList<>();
+		for (String brand : table.keySet()) {
+			brands.add(brand);
+		}
+		return brands;
+	}
 	
 	public String toString() {	//print the table
 		int longestBrandLength = 7;	//first, loop through brands to find the one w/ longest name
