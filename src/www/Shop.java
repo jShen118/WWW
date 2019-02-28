@@ -22,6 +22,17 @@ public class Shop {
 	public boolean doesTableContainBrand(String brand) {
 		return priceTable.containsBrand(brand);
 	}
+	public boolean doesBrandHaveLevel(String brand, RepairLevel level) {
+		return priceTable.containsBrandLevelPair(brand, level);
+	}
+	public Customer getCustomer(int customerNumber) {
+		for (int i = 0; i < customers.size(); ++i) {
+			if (customers.get(i).customerNumber == customerNumber) {
+				return customers.get(i);
+			}
+		}
+		return null;
+	}
 	//this returns all brands
 	public ArrayList<String> getAllBrands() {
 		return priceTable.getAllBrands();
@@ -67,6 +78,7 @@ public class Shop {
 	public void addo(int customerNumber, Date date, String brand, RepairLevel level, String comment) {
 		RepairPrice p = priceTable.getRepairPrice(brand, level);
 		Order o = new Order(date, customerNumber, p, comment);	//Date date, int customerNumber, RepairPrice repairPrice, String comment)
+		System.out.println(o);
 		transactions.add(o);
 	};	//add order
 	public void addp(int customerNumber, Date date, int amount) {

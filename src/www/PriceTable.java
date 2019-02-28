@@ -48,6 +48,9 @@ public class PriceTable {
 		PriceTrio pricesOfBrand = table.get(brand);
 		return pricesOfBrand != null;
 	}
+	public boolean containsBrandLevelPair(String brand, RepairLevel level) {
+		return getRepairPrice(brand, level) != null;
+	}
 	public ArrayList<String> getAllBrands() {
 		ArrayList<String> brands = new ArrayList<>();
 		for (String brand : table.keySet()) {

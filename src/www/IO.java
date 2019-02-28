@@ -39,6 +39,13 @@ public class IO {
 		validCommands.add("restorebs");
 	}
 	
+	private String getComment(String[] args, int begin) {
+		String comment = "";
+		for (int i = begin; i < args.length; ++i) {
+			comment += args[i] + " ";
+		}
+		return comment;
+	}
 	//ensures that the correct number of args is passed
 	//canHaveMore = true will make it so that you can have more than length (for comments)
 	//prints an error message if bad
@@ -102,41 +109,75 @@ public class IO {
 			case("addrp"):
 				//check for correct number of arguments
 				if (!checkForNumArgs(args, 5, false)) {
+					System.out.println("→addrp <brand> <level> <price> <days>");
 					break;
 				}
 				//retrieve brand, cancel and print warning if it is invalid
-				String brand = args[1];
-				String brandWarning = getBrandAdditionWarning(brand, true);
-				if (!brandWarning.equals("")) {
-					System.out.println("→note: " + brandWarning);
+				String addrpbrand = args[1];
+				String addrpbrandWarning = getBrandAdditionWarning(addrpbrand, true);
+				if (!addrpbrandWarning.equals("")) {
+					System.out.println("→note: " + addrpbrandWarning);
 					//break;	//there are situations where you want to break for an invalid brand but this is CERTAINLY not one of them...
 				}
 				//retrieve level, check if it is correct
-				RepairLevel level = stringToLevel(args[2]);
-				if (level == null) {
+				RepairLevel addrplevel = stringToLevel(args[2]);
+				if (addrplevel == null) {
 					break;
 				}
 				//retrieve price, check if it is correct
-				Integer price = stringToInt(args[3]);
-				if (price == null) {
+				Integer addrpprice = stringToInt(args[3]);
+				if (addrpprice == null) {
 					break;
 				}
 				//retrieve days, check if it is correct
-				Integer days = stringToInt(args[4]);
-				if (days == null) {
+				Integer addrpdays = stringToInt(args[4]);
+				if (addrpdays == null) {
 					break;
 				}
-				shop.addrp(brand, level, price, days);
+				shop.addrp(addrpbrand, addrplevel, addrpprice, addrpdays);
 				break;
 			case("addc"):
 				if (!checkForNumArgs(args, 3, false)) {
+					System.out.println("→addc <first name> <last name>");
 					break;
 				}
 				shop.addc(args[1], args[2]);
 				break;
 			case("addo"): 
-				System.out.println("UNIMPLEMENTED");
-//				shop.addo(Integer.parseInt(Support.splitStringIntoParts(command)[1]), Support.splitStringIntoParts(command)[2], Support.splitStringIntoParts(command)[3], Support.splitStringIntoParts(command)[4], Support.splitStringIntoParts(command)[5]);
+				if (!checkForNumArgs(args, 6, true)) {
+					System.out.println("→addo <customer number> <date> <brand> <level> <comment>");
+					break;
+				}
+				Integer addocustomerNumber = stringToInt(args[1]);
+				if (addocustomerNumber == null) {
+					break;
+				}
+				Date addodate = stringToDate(args[2]);
+				if (addodate == null) {
+					break;
+				}
+				String addobrand = args[3];
+				String addobrandWarning = getBrandAdditionWarning(addobrand, false);
+				if (!addobrandWarning.equals("")) {
+					System.out.println("»" + addobrandWarning);
+					break;
+				}
+				//retrieve level, check if it is correct
+				RepairLevel addolevel = stringToLevel(args[4]);
+				if (addolevel == null) {
+					break;
+				}
+				String addocomment = getComment(args, 5);
+				//now check for some other issues:
+				if (!shop.doesBrandHaveLevel(addobrand, addolevel)) {	//brand exists but doesnt have price defined for that level
+					System.out.println("»brand \"" + addobrand + "\" does not have a price defined for " + addolevel);
+					break;
+				}
+				if (shop.getCustomer(addocustomerNumber) == null) {	//customer doesn't exist
+					System.out.println("»there is no customer with number " + addocustomerNumber);
+					break;
+				}
+				shop.addo(addocustomerNumber, addodate, addobrand, addolevel, addocomment);
 				break;
 			case("addp"): 
 				System.out.println("UNIMPLEMENTED");
@@ -219,7 +260,7 @@ public class IO {
 		//split string into month, day, year
 		String sMM = date.substring(0, 2);	//MM is first two chars
 		String sDD = date.substring(2, 4);	//DD is second two chars
-		String sYYYY = date.substring(3);	//YYYY is last 4 chars
+		String sYYYY = date.substring(4);	//YYYY is last 4 chars
 		//convert substrings to ints
 		Integer MM = stringToInt(sMM);
 		Integer DD = stringToInt(sDD);
