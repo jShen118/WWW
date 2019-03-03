@@ -42,3 +42,5 @@ rnon 10
 addo 3 03032019 salsa gold no comment 
 rnon 11
 addo 3 03032019 jamis platinum no comment 
+addp 0 03032019 100
+addp 0 03032019 10
