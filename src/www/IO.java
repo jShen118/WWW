@@ -1,3 +1,4 @@
+
 /**
  * on arrows
  * > marks user input (>addrp brand gold 2 3)
@@ -180,11 +181,18 @@ public class IO {
 				shop.addo(addocustomerNumber, addodate, addobrand, addolevel, addocomment);
 				break;
 			case("addp"): 
-				System.out.println("UNIMPLEMENTED");
-//				shop.addp(Integer.parseInt(Support.splitStringIntoParts(command)[1]), Support.splitStringIntoParts(command)[2],Integer.parseInt(Support.splitStringIntoParts(command)[3]));
+                                if (!checkForNumArgs(args, 4, false)) {
+					System.out.println("→addp <customerNumber> <date> <amount>");
+					break;
+				}
+				shop.addp(stringToInt(args[1]), stringToDate(args[2]), stringToInt(args[3]));
 				break;
 			case("comp"):
-				System.out.println("UNIMPLEMENTED");
+				if (!checkForNumArgs(args, 3, false)) {
+					System.out.println("→comp <orderNumber> <completionDate>");
+					break;
+				}
+                                shop.comp(stringToInt(args[1]), stringToDate(args[2]));
 				break;
 			case("printrp"): 
 				shop.printrp();
@@ -208,7 +216,7 @@ public class IO {
 				shop.printr();
 				break;
 			case("prints"):
-				System.out.println("UNIMPLEMENTED");
+				shop.prints();
 				break;
 			case("readc"):
 				System.out.println("UNIMPLEMENTED");
