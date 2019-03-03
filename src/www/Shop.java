@@ -178,7 +178,7 @@ public class Shop {
                 int amount = o.amount;
                 int customerID = o.customerNumber;
                 String status;
-                String completionDate = o.completionDate.toString();
+                String completionDate = "";
                 if(o.isComplete()) {
                     status = "complete";
                     completionDate = o.completionDate.toString();
