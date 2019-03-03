@@ -40,7 +40,10 @@ public class Date implements Comparable<Date> {
 	}
 	
 	public String readableToString() {
-		return Integer.toString(month) + "/" + Integer.toString(day) + "/" + Integer.toString(year);
+		String MM = Support.bufferZero(Integer.toString(month), 2);
+		String DD = Support.bufferZero(Integer.toString(day), 2);
+		String YYYY = Support.bufferZero(Integer.toString(year), 4);
+                return MM + "/" + DD + "/" + YYYY;
 	}
 	
 	private Date addDays(int daysLater, int daysInMonth) {
