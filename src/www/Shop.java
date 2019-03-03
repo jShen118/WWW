@@ -178,10 +178,14 @@ public class Shop {
                 int amount = o.amount;
                 int customerID = o.customerNumber;
                 String status;
-                Date completionDate = o.completionDate;
+                String completionDate = o.completionDate;
                 if(o.isComplete()) {
                     status = "complete";
-                } else {status = "incomplete";}
+                    completionDate = o.completionDate.toString();
+                } else {
+                    status = "incomplete";
+                    completionDate = "-";
+                }
                 
                 String orderIDWithBuffer = Support.bufferSpaceCentered(Integer.toString(orderID), 10);
                 String dateMadeWithBuffer = Support.bufferSpaceCentered(dateMade.toString(), 11);

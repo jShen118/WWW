@@ -162,15 +162,48 @@ public class Support {
 	} //returns the sum of amounts of payments
 
 	static public ArrayList<Transaction> tSortedByDate(ArrayList<Transaction> transactions) {
-		Collections.sort(transactions, Collections.reverseOrder());
-		return transactions;
+		ArrayList<Transaction> toReturn = new ArrayList<>();
+                ArrayList<Date> dates = new ArrayList<>();
+		HashMap<Date, Transaction> map = new HashMap<>();
+                for(Transaction t: transactions) {
+                    map.put(t.dateMade, t);
+                    dates.add(t.dateMade);
+                }
+                Collections.sort(dates);
+                Collections.reverse(dates);
+                for(Date d: dates) {
+                    toReturn.add(map.get(d));
+                }
+		return toReturn;
 	} //returns transactions from latest to oldest
 	static public ArrayList<Order> oSortedByDate(ArrayList<Order> orders) {
-		Collections.sort(orders, Collections.reverseOrder());
-		return orders;
+                ArrayList<Order> toReturn = new ArrayList<>();
+                ArrayList<Date> dates = new ArrayList<>();
+		HashMap<Date, Order> map = new HashMap<>();
+                for(Order o: orders) {
+                    map.put(o.dateMade, o);
+                    dates.add(o.dateMade);
+                }
+                Collections.sort(dates);
+                Collections.reverse(dates);
+                for(Date d: dates) {
+                    toReturn.add(map.get(d));
+                }
+		return toReturn;
 	} //returns orders from latest to oldest
 	static public ArrayList<Payment> pSortedByDate(ArrayList<Payment> payments) {
-		Collections.sort(payments, Collections.reverseOrder());
-		return payments;
+		ArrayList<Payment> toReturn = new ArrayList<>();
+                ArrayList<Date> dates = new ArrayList<>();
+		HashMap<Date, Payment> map = new HashMap<>();
+                for(Payment p: payments) {
+                    map.put(p.dateMade, p);
+                    dates.add(p.dateMade);
+                }
+                Collections.sort(dates);
+                Collections.reverse(dates);
+                for(Date d: dates) {
+                    toReturn.add(map.get(d));
+                }
+		return toReturn;
 	} //returns payments from latest to oldest
 }
