@@ -1,0 +1,9 @@
+rncn 0
+addc john man
+rncn 1
+addc joe dude
+addrp a silver 1 1
+addrp a gold 1 1
+addrp a platinum 1 1
+rnon 9
+addo 1 03032019 a silver this is an order 

@@ -14,7 +14,6 @@ import java.io.*;
 public class IO {
 	private Shop shop;
 	private Scanner s;
-	private Date currentdate;
 	private ArrayList<String> validCommands;	//a list of valid commands to be used for suggesting alternatives
 	private boolean isReadingCommands = false;
 	
@@ -135,13 +134,59 @@ public class IO {
 			}
 		}
 		isReadingCommands = false;
+		System.out.println("→successfully read commands from file " + file);
 		return false;
 	}
+	
+	private void writeTextFile(String file, String text) {
+		try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "utf-8"))) {
+			writer.write(text);
+			return;
+		} catch (Exception e) {
+			System.out.println("»" + e);
+			return;
+		}
+	}
+	
+	private void savebs(String file) {
+		String commands = shop.getSavefile();
+		writeTextFile(file, commands);
+		System.out.println("→saved bike shop to file " + file);
+	}
+
 	//this function takes a command and executes it. If it is restoring a save file, 
 	//isRestoreMode is set to true and it can execute the rncn and rnom commands
 	//returns true on "quit", false on anything else. This lets it communicate to run() when it is time to exit.
 	private boolean executeCommand(String command, boolean isRestoreMode) {
 		String[] args = Support.splitStringIntoParts(command);	//args[0] is the name of the command, rest is arguments
+		if (isRestoreMode) {
+			if (args[0].equals("rncn")) {
+				if (!checkForNumArgs(args, 2, false)) {
+					System.out.println("»Error in save: rncn received wrong number of args");
+					return false;
+				}
+				Integer n = stringToInt(args[1]);
+				if (n == null) {
+					System.out.println("»Error in save: rncn n is invalid value \"" + args[1] + "\"");
+					return false;
+				}
+				Customer.customerNumberDispenser = n;
+				return false;
+			}
+			if (args[0].equals("rnon")) {
+				if (!checkForNumArgs(args, 2, false)) {
+					System.out.println("»Error in save: rnon received wrong number of args");
+					return false;
+				}
+				Integer n = stringToInt(args[1]);
+				if (n == null) {
+					System.out.println("»Error in save: rnon n is invalid value \"" + args[1] + "\"");
+					return false;
+				}
+				Order.orderNumberDispenser = n;
+				return false;
+			}
+		}
 		switch(args[0]){
 			case("quit"):
 				return true;
@@ -264,19 +309,31 @@ public class IO {
 					System.out.println("→readc <filename>");
 					break;
 				}
-				String filename = args[1];
-				if (readCommandsFromFile(filename, false)) {	//handle quitting
+				String readcfilename = args[1];
+				if (readCommandsFromFile(readcfilename, false)) {	//handle quitting
 					return true;
 				}
 				break;
 			case("savebs"):
-				System.out.println("UNIMPLEMENTED");
+				if (!checkForNumArgs(args, 2, false)) {
+					System.out.println("→savebs <filename>");
+					break;
+				}
+				String savebsfilename = args[1];
+				savebs(savebsfilename);
 				break;
 			case("restorebs"):
-				System.out.println("UNIMPLEMENTED");
+				if (!checkForNumArgs(args, 2, false)) {
+					System.out.println("→restorebs <filename>");
+					break;
+				}
+				
+				String restorebsfilename = args[1];
+				shop = new Shop();
+				readCommandsFromFile(restorebsfilename, true);
 				break;
 			default:
-				System.out.println("»unknown command. Type \"help\" for help. " + getSimilarStrings(args[0], validCommands, 2));
+				System.out.println("»unknown command \"" + args[0] + "\". Type \"help\" for help. " + getSimilarStrings(args[0], validCommands, 2));
 				break;
 		}
 		return false;

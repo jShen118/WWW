@@ -22,7 +22,8 @@ public class Customer {
 		//example: "John Smith (customer #193)"
 	}
 	public String toCommand() {
-		return "addc " + firstName + " " + lastName;
+		String setNumber = "rncn " + Integer.toString(customerNumber) + "\n";
+		return setNumber + "addc " + firstName + " " + lastName;
 		//example: John Smith (customer #193) would become "addc john smith"
 	}
 }
