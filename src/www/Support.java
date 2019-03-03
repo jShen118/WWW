@@ -17,20 +17,21 @@ public class Support {
 		return toBuffer;
 	}
 	static public String bufferSpaceCentered(String toBuffer, int length) {
-			double bufferLength = (length - toBuffer.length()) / 2;
+			double bufferLength = ((double) (length - toBuffer.length())) / 2;
 			String buffer = "";
 			if(bufferLength % 1 == 0) { //executes inside if bufferLength is not an integer
-				return spaces((int) bufferLength) + toBuffer + spaces(((int) bufferLength) + 1);
-			} //returns (bufferLength - "1/2 space") + toBuffer + (bufferLength + "1/2 space")
-			return spaces((int) bufferLength) + toBuffer + spaces((int) bufferLength);
-		}
-		static public String spaces(int length) {
-			String toReturn = "";
-			for(int n = 1; n <= length; n++) {
-				toReturn = toReturn + " ";
+				return spaces((int) bufferLength) + toBuffer + spaces((int) bufferLength);
 			}
-			return toReturn;
+			return spaces((int) bufferLength) + toBuffer + spaces(((int) bufferLength) + 1);
+                        //returns (bufferLength - "1/2 space") + toBuffer + (bufferLength + "1/2 space")
+        }
+	static public String spaces(int length) {
+		String toReturn = "";
+		for(int n = 1; n <= length; n++) {
+			toReturn = toReturn + " ";
 		}
+		return toReturn;
+	}
 	static public String bufferZero(String toBuffer, int length) {
 		while (toBuffer.length() < length) {
 			toBuffer = "0" + toBuffer;
