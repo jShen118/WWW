@@ -134,7 +134,7 @@ public class Shop {
             toReturn += "\ntotal value of payments: $" + Support.paymentsSum(customerPayments);
             toReturn += "\ndebt to company: $" + Support.transactionsSum(customerTransactions) + "\n\n";
             toReturn += c.firstName + " " + c.lastName + "'s Transactions:\n";
-            toReturn += "┌[Date]--┬[Type]-----┬[Amount]┬[Status]---┐"; // │8│11│8│11│
+            toReturn += "┌[Date]----┬[Type]-----┬[Amount]┬[Status]---┐"; // │8│11│8│11│
             customerTransactions = Support.tSortedByDate(customerTransactions);
             for(Transaction t: customerTransactions) { //this for loop is for producing the table
                 Date date = t.dateMade;
@@ -152,13 +152,13 @@ public class Shop {
                     status = "-";
                 }
                 
-                //date does not need buffer since it is always 8 characters long, the width of the column
+                //date does not need buffer since it is always 10 characters long, the width of the column
                 String typeWithBuffer = Support.bufferSpaceCentered(type, 11);
                 String amountWithBuffer = Support.bufferSpaceCentered(Integer.toString(amount), 8);
                 String statusWithBuffer = Support.bufferSpaceCentered("-", 11);
                 toReturn += "\n│" + date + "│" + typeWithBuffer + "│" + amountWithBuffer + "│" + statusWithBuffer + "│";
             }
-            toReturn += "\n└--------┴-----------┴--------┴-----------┘\n\n\n";
+            toReturn += "\n└----------┴-----------┴--------┴-----------┘\n\n\n";
             return toReturn;
         }
         
@@ -195,42 +195,42 @@ public class Shop {
                 String completionDateWithBuffer = Support.bufferSpaceCentered(completionDate.toString(), 17);
                 toPrint += "\n│" + orderIDWithBuffer + "│" + dateMadeWithBuffer + "│" + amountWithBuffer + "│" + customerIDWithBuffer + "│" + statusWithBuffer + "│" + completionDateWithBuffer + "│";
             }
-            toPrint += "\n└----------┴-----------┴--------┴-------------┴-----------┴----------------┘";//end of table construction
+            toPrint += "\n└----------┴-----------┴--------┴-------------┴-----------┴-----------------┘";//end of table construction
             toPrint += "\n\nIndividual order Reports:";
             for(Order o: orders) { //this for loop simply adds all order toString()s to toPrint. Expands on information in the table
                 toPrint += "\n" + o.toString();
             }
-            toPrint += "\n├------------------------------------------------------------------------------------┤";
+            toPrint += "\n\n├------------------------------------------------------------------------------------┤";
             System.out.println(toPrint);
         }
         public void printp() { //prints table of payments and each individual report
-            String toPrint = "├[Payments]---------------------------------------------------------------------------┤";
+            String toPrint = "├[Payments]--------------------------------------------------------------------------┤";
             ArrayList<Payment> payments = Support.payments((ArrayList<Transaction>) transactions);
             toPrint += "\n# of all payments: " + payments.size();
             toPrint += "\nValue of all payments: $" + Support.paymentsSum(payments);
             toPrint += "\n\nTable of all payments:";
-            toPrint += "\n┌[Date]--┬[Amount]┬[Customer ID]┐"; // │8│8│13│
+            toPrint += "\n┌[Date]----┬[Amount]┬[Customer ID]┐"; // │8│8│13│
             payments = Support.pSortedByDate(payments); //this for loop is for producing the table
             for(Payment p: payments) { 
                 Date date = p.dateMade;
                 int amount = p.amount;
                 int customerNumber = p.customerNumber;
                 
-                //date does not need buffer since the date column is 8 spaces wide and date is always 8 digits
+                //date does not need buffer since the date column is 10 spaces wide and date is always 8 digits
                 String amountWithBuffer = Support.bufferSpaceCentered(Integer.toString(amount), 8);
                 String customerNumberWithBuffer = Support.bufferSpaceCentered(Integer.toString(customerNumber), 13);
                 toPrint += "\n│" + date + "│" + amountWithBuffer + "│" + customerNumberWithBuffer + "│";
             }
-            toPrint += "\n└--------┴--------┴-------------┘";//end of producing table
+            toPrint += "\n└----------┴--------┴-------------┘";//end of producing table
             toPrint += "\n\nIndividual payment reports:";
             for(Payment p: payments) { //this for loop simply adds all payment toString()s to toPrint. Kind of irrelevent because of table
                 toPrint += "\n" + p.toString();
             }
-            toPrint += "\n├------------------------------------------------------------------------------------┤";
+            toPrint += "\n\n\n├------------------------------------------------------------------------------------┤";
             System.out.println(toPrint);
         }
 	public void printt() {
-            String toPrint = "├[Transactions]-----------------------------------------------------------------------┤";
+            String toPrint = "├[Transactions]----------------------------------------------------------------------┤";
             toPrint += "\n# of all transactions: " + transactions.size();
             toPrint += "\nTotal debt to the tune-up business: $" + Support.transactionsSum((ArrayList<Transaction>) transactions);
             toPrint += "\n\nTable of all transactions:";
@@ -255,12 +255,12 @@ public class Shop {
                 String dateWithBuffer = Support.bufferSpaceCentered(date.toString(), 11);
                 String typeWithBuffer = Support.bufferSpaceCentered(type, 11);
                 String amountWithBuffer = Support.bufferSpaceCentered(Integer.toString(amount), 8);
-                String statusWithBuffer = Support.bufferSpaceCentered(status, 11);
+                String statusWithBuffer = Support.bufferSpaceCentered(status, 12);
                 String customerIDWithBuffer = Support.bufferSpaceCentered(Integer.toString(customerID), 13);
                 toPrint += "\n│" + dateWithBuffer + "│" + typeWithBuffer + "│" + amountWithBuffer + "│" + status + "│" + customerIDWithBuffer + "│";
             }
-            toPrint += "\n└-----------┴-----------┴--------┴-----------┴-------------┘";//end of table construction
-            toPrint += "\n├------------------------------------------------------------------------------------┤";
+            toPrint += "\n└-----------┴-----------┴--------┴----------┴-------------┘";//end of table construction
+            toPrint += "\n\n\n├------------------------------------------------------------------------------------┤";
             System.out.println(toPrint);
         };	//print transactions
 	public void printr() {
@@ -288,8 +288,8 @@ public class Shop {
                 toPrint += "\n│" + nameWithBuffer + "│" + customerIDWithBuffer + "│" + debtWithBuffer + "│";
             }
             toPrint += "\n└------------------┴------┴-----------------┘";// end of table construction
-            toPrint += "\n├------------------------------------------------------------------------------------┤";
-        };	//print receivables
+            toPrint += "\n\n\n├------------------------------------------------------------------------------------┤";
+        };
 		public void prints() {};	//print statements
 		/**
 		 * the actual save/load/read should be handled by IOHandler
