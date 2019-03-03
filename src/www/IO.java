@@ -9,12 +9,14 @@
 
 package www;
 import java.util.*;
+import java.io.*;
 
 public class IO {
 	private Shop shop;
 	private Scanner s;
 	private Date currentdate;
 	private ArrayList<String> validCommands;	//a list of valid commands to be used for suggesting alternatives
+	private boolean isReadingCommands = false;
 	
 	IO() {
 		shop = new Shop();
@@ -96,6 +98,45 @@ public class IO {
 		return "";
 	}
 	
+	//returns true on a "quit" command, not that I understand why anybody would want to do that
+	private boolean readCommandsFromFile(String file, boolean isRestoreMode) {
+		//get file into fileContent line by line
+		if (isReadingCommands == true) {
+			System.out.println("»Nested readc statements are unacceptable. Skipping command...");
+			return false;
+		} else {
+			System.out.println("→Reading commands from file " + file + "...");
+		}
+		isReadingCommands = true;
+		BufferedReader reader;
+		try {
+			reader = new BufferedReader(new FileReader(file));
+		} catch (Exception e) {
+			System.out.println("»" + e);
+			isReadingCommands = false;
+			return false;
+		}
+		String line = null;
+		ArrayList<String> fileContent = new ArrayList<>();
+		try {
+			while((line = reader.readLine()) != null) {
+				fileContent.add(line);
+			}
+		} catch (Exception e) {
+			System.out.println("»" + e);
+			isReadingCommands = false;
+			return false;
+		}
+		//execute fileContent
+		for (int i = 0; i < fileContent.size(); ++i) {
+			if (executeCommand(fileContent.get(i), isRestoreMode)) {
+				isReadingCommands = false;
+				return true;
+			}
+		}
+		isReadingCommands = false;
+		return false;
+	}
 	//this function takes a command and executes it. If it is restoring a save file, 
 	//isRestoreMode is set to true and it can execute the rncn and rnom commands
 	//returns true on "quit", false on anything else. This lets it communicate to run() when it is time to exit.
@@ -181,7 +222,7 @@ public class IO {
 				shop.addo(addocustomerNumber, addodate, addobrand, addolevel, addocomment);
 				break;
 			case("addp"): 
-                                if (!checkForNumArgs(args, 4, false)) {
+                if (!checkForNumArgs(args, 4, false)) {
 					System.out.println("→addp <customerNumber> <date> <amount>");
 					break;
 				}
@@ -192,7 +233,7 @@ public class IO {
 					System.out.println("→comp <orderNumber> <completionDate>");
 					break;
 				}
-                                shop.comp(stringToInt(args[1]), stringToDate(args[2]));
+                shop.comp(stringToInt(args[1]), stringToDate(args[2]));
 				break;
 			case("printrp"): 
 				shop.printrp();
@@ -219,7 +260,14 @@ public class IO {
 				shop.prints();
 				break;
 			case("readc"):
-				System.out.println("UNIMPLEMENTED");
+				if (!checkForNumArgs(args, 2, false)) {
+					System.out.println("→readc <filename>");
+					break;
+				}
+				String filename = args[1];
+				if (readCommandsFromFile(filename, false)) {	//handle quitting
+					return true;
+				}
 				break;
 			case("savebs"):
 				System.out.println("UNIMPLEMENTED");
