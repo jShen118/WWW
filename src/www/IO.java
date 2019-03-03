@@ -271,16 +271,36 @@ public class IO {
 					System.out.println("→addp <customerNumber> <date> <amount>");
 					break;
 				}
-				shop.addp(stringToInt(args[1]), stringToDate(args[2]), stringToInt(args[3]));
+				Integer addpcustomerNumber = stringToInt(args[1]);
+				if (addpcustomerNumber == null) {
+					break;
+				}
+				Date addpdate = stringToDate(args[2]);
+				if (addpdate == null) {
+					break;
+				}
+				Integer addpamount = stringToInt(args[3]);
+				if (addpamount == null) {
+					break;
+				}
+				shop.addp(addpcustomerNumber, addpdate, addpamount);
 				break;
 			case("comp"):
 				if (!checkForNumArgs(args, 3, false)) {
 					System.out.println("→comp <orderNumber> <completionDate>");
 					break;
 				}
-                shop.comp(stringToInt(args[1]), stringToDate(args[2]));
+				Integer comporderNumber = stringToInt(args[1]);
+				if (comporderNumber == null) {
+					break;
+				}
+				Date compdate = stringToDate(args[2]);
+				if (compdate == null) {
+					break;
+				}
+                shop.comp(comporderNumber, compdate);
 				break;
-			case("printrp"): 
+			case("printrp"):
 				shop.printrp();
 				break;
 			case("printcnum"): 
