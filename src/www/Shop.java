@@ -156,7 +156,7 @@ public class Shop {
                 String typeWithBuffer = Support.bufferSpaceCentered(type, 11);
                 String amountWithBuffer = Support.bufferSpaceCentered(Integer.toString(amount), 8);
                 String statusWithBuffer = Support.bufferSpaceCentered("-", 11);
-                toReturn += "\n│" + date + "│" + typeWithBuffer + "│" + amountWithBuffer + "│" + statusWithBuffer + "│";
+                toReturn += "\n│" + date.readableToString() + "│" + typeWithBuffer + "│" + amountWithBuffer + "│" + statusWithBuffer + "│";
             }
             toReturn += "\n└----------┴-----------┴--------┴-----------┘\n\n\n";
             return toReturn;
@@ -188,7 +188,7 @@ public class Shop {
                 }
                 
                 String orderIDWithBuffer = Support.bufferSpaceCentered(Integer.toString(orderID), 10);
-                String dateMadeWithBuffer = Support.bufferSpaceCentered(dateMade.toString(), 11);
+                String dateMadeWithBuffer = Support.bufferSpaceCentered(dateMade.readableToString(), 11);
                 String amountWithBuffer = Support.bufferSpaceCentered(Integer.toString(amount), 8);
                 String customerIDWithBuffer = Support.bufferSpaceCentered(Integer.toString(customerID), 13);
                 String statusWithBuffer = Support.bufferSpaceCentered(status, 11);
@@ -219,7 +219,7 @@ public class Shop {
                 //date does not need buffer since the date column is 10 spaces wide and date is always 8 digits
                 String amountWithBuffer = Support.bufferSpaceCentered(Integer.toString(amount), 8);
                 String customerNumberWithBuffer = Support.bufferSpaceCentered(Integer.toString(customerNumber), 13);
-                toPrint += "\n│" + date + "│" + amountWithBuffer + "│" + customerNumberWithBuffer + "│";
+                toPrint += "\n│" + date.readableToString() + "│" + amountWithBuffer + "│" + customerNumberWithBuffer + "│";
             }
             toPrint += "\n└----------┴--------┴-------------┘";//end of producing table
             toPrint += "\n\nIndividual payment reports:";
@@ -252,7 +252,7 @@ public class Shop {
                     status = "-";
                 }
                 
-                String dateWithBuffer = Support.bufferSpaceCentered(date.toString(), 11);
+                String dateWithBuffer = Support.bufferSpaceCentered(date.readableToString(), 11);
                 String typeWithBuffer = Support.bufferSpaceCentered(type, 11);
                 String amountWithBuffer = Support.bufferSpaceCentered(Integer.toString(amount), 8);
                 String statusWithBuffer = Support.bufferSpaceCentered(status, 12);
