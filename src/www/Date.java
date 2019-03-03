@@ -36,7 +36,7 @@ public class Date implements Comparable<Date> {
 		String MM = Support.bufferZero(Integer.toString(month), 2);
 		String DD = Support.bufferZero(Integer.toString(day), 2);
 		String YYYY = Support.bufferZero(Integer.toString(year), 4);
-		return MM + DD + YYYY;
+		return MM + "/" + DD + "/" + YYYY;
 	}
 	
 	public String readableToString() {
