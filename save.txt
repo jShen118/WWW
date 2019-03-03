@@ -1,9 +1,44 @@
 rncn 0
-addc john man
+addc john smith
 rncn 1
-addc joe dude
-addrp a silver 1 1
-addrp a gold 1 1
-addrp a platinum 1 1
+addc susan apples
+rncn 2
+addc jack johnson
+rncn 3
+addc jill johnson
+addrp trek silver 40 4
+addrp trek gold 60 7
+addrp trek platinum 100 10
+addrp jamis silver 60 4
+addrp jamis gold 75 7
+addrp jamis platinum 120 10
+addrp cannondale silver 40 4
+addrp cannondale gold 60 7
+addrp cannondale platinum 100 10
+addrp salsa silver 50 4
+addrp salsa gold 60 7
+addrp salsa platinum 115 10
+rnon 0
+addo 0 03032019 trek silver no comment 
+rnon 1
+addo 0 03032019 cannondale gold no comment 
+rnon 2
+addo 0 03032019 salsa platinum no comment 
+rnon 3
+addo 1 03032019 jamis silver no comment 
+rnon 4
+addo 1 03032019 trek gold no comment 
+rnon 5
+addo 1 03032019 cannondale platinum no comment 
+rnon 6
+addo 2 03032019 salsa silver no comment 
+rnon 7
+addo 2 03032019 jamis gold no comment 
+rnon 8
+addo 2 03032019 trek platinum no comment 
 rnon 9
-addo 1 03032019 a silver this is an order 
+addo 3 03032019 cannondale silver no comment 
+rnon 10
+addo 3 03032019 salsa gold no comment 
+rnon 11
+addo 3 03032019 jamis platinum no comment 
