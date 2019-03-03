@@ -66,12 +66,12 @@ public class Www {
                 
                 s.addc("John", "Smith");
                 s.addo(0, new Date(3, 3, 2019), "Trek", RepairLevel.silver, "no comment");
-                s.addo(0, new Date(3, 3, 2019), "CannonDale", RepairLevel.gold, "no comment");
+                s.addo(0, new Date(3, 3, 2019), "Cannondale", RepairLevel.gold, "no comment");
                 s.addo(0, new Date(3, 3, 2019), "Salsa", RepairLevel.platinum, "no comment");
                 s.addc("Susan", "Apples");
                 s.addo(1, new Date(3, 3, 2019), "Jamis", RepairLevel.silver, "no comment");
                 s.addo(1, new Date(3, 3, 2019), "Trek", RepairLevel.gold, "no comment");
-                s.addo(1, new Date(3, 3, 2019), "CannonDale", RepairLevel.platinum, "no comment");
+                s.addo(1, new Date(3, 3, 2019), "Cannondale", RepairLevel.platinum, "no comment");
                 s.addc("Jack", "Johnson");
                 s.addo(2, new Date(3, 3, 2019), "Salsa", RepairLevel.silver, "no comment");
                 s.addo(2, new Date(3, 3, 2019), "Jamis", RepairLevel.gold, "no comment");
@@ -81,12 +81,12 @@ public class Www {
                 s.addo(3, new Date(3, 3, 2019), "Salsa", RepairLevel.gold, "no comment");
                 s.addo(3, new Date(3, 3, 2019), "Jamis", RepairLevel.platinum, "no comment");
                 
-                s.printcnum();
-                s.printcname();
                 s.printo();
                 s.printp();
                 s.printr();
                 s.printt();
+                s.printcnum();
+                s.printcname();
                 //s.prints();
 	}
 }
