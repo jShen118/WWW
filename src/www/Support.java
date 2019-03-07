@@ -207,4 +207,73 @@ public class Support {
                 }
 		return toReturn;
 	} //returns payments from latest to oldest
+	
+	
+	
+	//BELOW ARE HELPERS FOR REVENUE REPORT
+        static public DateRange orderDateRange(ArrayList<Order> orders) {
+            ArrayList<Date> orderDates = new ArrayList<>();
+            for(Order o: orders) {
+                orderDates.add(o.dateMade);
+            }
+            Date highestDate = Collections.max(orderDates);
+            Date lowestDate = Collections.min(orderDates);
+            
+            return new DateRange(lowestDate, highestDate);
+        }
+        
+        static public HashMap<Week, ArrayList<Order>> weeksAndCorrespondingOrders(ArrayList<Order> orders) {
+            HashMap<Week, ArrayList<Order>> toReturn = new HashMap<>();
+            DateRange dateRange = orderDateRange(orders); //finds range of order dateMades
+            ArrayList<Week> weeks = dateRange.makeWeeks();
+            
+            for(Week w: weeks) { //this loop fills the map with weeks and their corresponding orders
+                for(Order o: orders) {
+                    ArrayList<Order> ordersInWeek = new ArrayList<Order>();
+                    if(w.contains(o.dateMade)) {
+                        ordersInWeek.add(o);
+                    }
+                    toReturn.put(w, ordersInWeek);
+                }
+            }
+            return toReturn;
+        }
+        
+        static public ArrayList<Order> ordersOfDate(ArrayList<Order> orders, Date date) {
+            ArrayList<Order> toReturn = new ArrayList<>();
+            for(Order o: orders) {
+                if(o.dateMade == date) {toReturn.add(o);}
+            }
+            return toReturn;
+        }
+        
+        static public String weeklyOrderRevenueReport(ArrayList<Order> orders) {
+            String toPrint = "├[Weekly Order Revenue Report]-------------------------------------------------------┤";
+            HashMap<Week, ArrayList<Order>> weeksWithOrders = weeksAndCorrespondingOrders(orders);
+            for(Week w: weeksWithOrders.keySet()) {
+                ArrayList<Order> ordersOfWeek = weeksWithOrders.get(w);
+                String firstDayString = w.firstDay.readableToString();
+                String seventhDayString = w.seventhDay.readableToString();
+                String secondDayString = w.secondDay.readableToString();
+                String thirdDayString = w.thirdDay.readableToString();
+                String fourthDayString = w.fourthDay.readableToString();
+                String fifthDayString = w.fifthDay.readableToString();
+                String sixthDayString = w.sixthDay.readableToString();
+                
+                
+                toPrint += "\nWeek of " + firstDayString + " to " + seventhDayString;
+                toPrint += "\nThis week's order revenue: $" + ordersSum(ordersOfWeek);
+                toPrint += "\n  " + firstDayString + " order revenue: $" + ordersSum(ordersOfDate(ordersOfWeek, w.firstDay));
+                toPrint += "\n  " + secondDayString + " order revenue: $" + ordersSum(ordersOfDate(ordersOfWeek, w.secondDay));
+                toPrint += "\n  " + thirdDayString + " order revenue: $" + ordersSum(ordersOfDate(ordersOfWeek, w.thirdDay));
+                toPrint += "\n  " + fourthDayString + " order revenue: $" + ordersSum(ordersOfDate(ordersOfWeek, w.fourthDay));
+                toPrint += "\n  " + fifthDayString + " order revenue: $" + ordersSum(ordersOfDate(ordersOfWeek, w.fifthDay));
+                toPrint += "\n  " + sixthDayString + " order revenue: $" + ordersSum(ordersOfDate(ordersOfWeek, w.sixthDay));
+                toPrint += "\n  " + seventhDayString + " order revenue: $" + ordersSum(ordersOfDate(ordersOfWeek, w.seventhDay));
+                toPrint += "\n\n";
+            }
+            
+            toPrint += "├------------------------------------------------------------------------------------┤";
+            return toPrint;
+        }
 }
