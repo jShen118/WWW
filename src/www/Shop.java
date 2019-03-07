@@ -346,6 +346,12 @@ public class Shop {
 			System.out.println(statement);
 		}
 	};	//print statements
+	
+	public void printworp() {
+            String toPrint = Support.weeklyOrderRevenueReport(Support.orders((ArrayList<Transaction>) transactions));
+            System.out.println(toPrint);
+        }
+	
 	public String getSavefile() {
 		String savefile = "";
 		//customers first
