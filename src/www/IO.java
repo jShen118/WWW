@@ -160,6 +160,7 @@ public class IO {
 	private boolean executeCommand(String command, boolean isRestoreMode) {
 		String[] args = Support.splitStringIntoParts(command);	//args[0] is the name of the command, rest is arguments
 		if (isRestoreMode) {
+			System.out.println(">" + command);
 			if (args[0].equals("rncn")) {
 				if (!checkForNumArgs(args, 2, false)) {
 					System.out.println("»Error in save: rncn received wrong number of args");
