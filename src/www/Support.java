@@ -220,18 +220,19 @@ public class Support {
             Date lowestDate = Collections.min(orderDates);
             
             return new DateRange(lowestDate, highestDate);
-        }
+        } //produces range of dates that encompasses all the dateMades of all orders
         
         static public HashMap<Week, ArrayList<Order>> weeksAndCorrespondingOrders(ArrayList<Order> orders) {
             HashMap<Week, ArrayList<Order>> toReturn = new HashMap<>();
             DateRange dateRange = orderDateRange(orders); //finds range of order dateMades
-            ArrayList<Week> weeks = dateRange.makeWeeks();
+            ArrayList<Week> weeks = dateRange.makeWeeks(); //splits range into component weeks
             
             for(Week w: weeks) { //this loop fills the map with weeks and their corresponding orders
                 for(Order o: orders) {
                     ArrayList<Order> ordersInWeek = new ArrayList<Order>();
                     if(w.contains(o.dateMade)) {
                         ordersInWeek.add(o);
+                        System.out.println("order added to week");
                     }
                     toReturn.put(w, ordersInWeek);
                 }
@@ -254,26 +255,52 @@ public class Support {
                 ArrayList<Order> ordersOfWeek = weeksWithOrders.get(w);
                 String firstDayString = w.firstDay.readableToString();
                 String seventhDayString = w.seventhDay.readableToString();
-                String secondDayString = w.secondDay.readableToString();
-                String thirdDayString = w.thirdDay.readableToString();
-                String fourthDayString = w.fourthDay.readableToString();
-                String fifthDayString = w.fifthDay.readableToString();
-                String sixthDayString = w.sixthDay.readableToString();
                 
-                
+                for(Order o: ordersOfWeek) {
+                    toPrint += o.toString();
+                }
                 toPrint += "\nWeek of " + firstDayString + " to " + seventhDayString;
                 toPrint += "\nThis week's order revenue: $" + ordersSum(ordersOfWeek);
-                toPrint += "\n  " + firstDayString + " order revenue: $" + ordersSum(ordersOfDate(ordersOfWeek, w.firstDay));
-                toPrint += "\n  " + secondDayString + " order revenue: $" + ordersSum(ordersOfDate(ordersOfWeek, w.secondDay));
-                toPrint += "\n  " + thirdDayString + " order revenue: $" + ordersSum(ordersOfDate(ordersOfWeek, w.thirdDay));
-                toPrint += "\n  " + fourthDayString + " order revenue: $" + ordersSum(ordersOfDate(ordersOfWeek, w.fourthDay));
-                toPrint += "\n  " + fifthDayString + " order revenue: $" + ordersSum(ordersOfDate(ordersOfWeek, w.fifthDay));
-                toPrint += "\n  " + sixthDayString + " order revenue: $" + ordersSum(ordersOfDate(ordersOfWeek, w.sixthDay));
-                toPrint += "\n  " + seventhDayString + " order revenue: $" + ordersSum(ordersOfDate(ordersOfWeek, w.seventhDay));
                 toPrint += "\n\n";
             }
             
-            toPrint += "├------------------------------------------------------------------------------------┤";
+            toPrint += "├-------------------------------------------------------------------------------------┤";
             return toPrint;
+        }
+        
+        static public String monthlyOrderRevenueReport(ArrayList<Order> orders) {
+            String toPrint = "├[Monthly Order Revenue Report]-------------------------------------------------------┤";
+            //DateRange dateRange = orderDateRange(orders);
+            HashMap<Integer, ArrayList<Order>> monthWithOrders = new HashMap<>();
+            for(Order o: orders) {
+                if(!monthWithOrders.containsKey(o.dateMade.month)) {
+                    monthWithOrders.put(o.dateMade.month, new ArrayList<Order>());
+                }
+                monthWithOrders.get(o.dateMade.month).add(o);
+            }
+            
+            for(Integer m: monthWithOrders.keySet()) {
+                toPrint += "\n" + monthString(m) + " revenue: " + ordersSum(monthWithOrders.get(m));
+            }
+            toPrint += "\n├-------------------------------------------------------------------------------------┤";
+            return toPrint;
+        }
+        
+        static public String monthString(Integer month) {
+            switch(month) {
+                case 1: return "January";
+                case 2: return "February";
+                case 3: return "March";
+                case 4: return "April";
+                case 5: return "May";
+                case 6: return "June";
+                case 7: return "July";
+                case 8: return "August";
+                case 9: return "September";
+                case 10: return "October";
+                case 11: return "November";
+                case 12: return "December";
+            }
+            return "month does not exist";
         }
 }
