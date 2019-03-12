@@ -352,6 +352,11 @@ public class Shop {
             System.out.println(toPrint);
         }
 	
+	public void printmorp() {
+            String toPrint = Support.monthlyOrderRevenueReport(Support.orders((ArrayList<Transaction>) transactions));
+            System.out.println(toPrint);
+        }
+	
 	public String getSavefile() {
 		String savefile = "";
 		//customers first
