@@ -232,7 +232,7 @@ public class IO {
 				shop.addc(args[1], args[2]);
 				break;
 			case("addo"): 
-				if (!checkForNumArgs(args, 6, true)) {
+				if (!checkForNumArgs(args, 5, true)) {
 					System.out.println("→addo <customer number> <date> <brand> <level> <comment>");
 					break;
 				}
@@ -255,7 +255,12 @@ public class IO {
 				if (addolevel == null) {
 					break;
 				}
-				String addocomment = getComment(args, 5);
+				String addocomment;
+				if (args.length >= 6) {
+					addocomment = getComment(args, 5);
+				} else {
+					addocomment = "";
+				}
 				//now check for some other issues:
 				if (!shop.doesBrandHaveLevel(addobrand, addolevel)) {	//brand exists but doesnt have price defined for that level
 					System.out.println("»brand \"" + addobrand + "\" does not have a price defined for " + addolevel);
