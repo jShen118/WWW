@@ -333,11 +333,11 @@ public class IO {
 				shop.prints();
 				break;
 			case("printworr"):
-                                shop.printworr();
-                                break;
-                        case("printmorr"):
-                                shop.printmorr();
-                                break;
+                shop.printworr();
+                break;
+            case("printmorr"):
+                shop.printmorr();
+                break;
 			case("readc"):
 				if (!checkForNumArgs(args, 2, false)) {
 					System.out.println("→readc <filename>");

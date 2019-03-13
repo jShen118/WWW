@@ -216,6 +216,10 @@ public class Support {
             for(Order o: orders) {
                 orderDates.add(o.dateMade);
             }
+			//avoid crashes
+			if (orders.isEmpty()) {
+				return null;
+			}
             Date highestDate = Collections.max(orderDates);
             Date lowestDate = Collections.min(orderDates);
             
@@ -223,9 +227,14 @@ public class Support {
         } //produces range of dates that encompasses all the dateMades of all orders
         
         static public String weeklyOrderRevenueReport(ArrayList<Order> orders) {
-            String toPrint = "├[Weekly Order Revenue Report]-------------------------------------------------------┤";
+            String toPrint = "├[Weekly Order Revenue Report]-------------------------------------------------------┤\n";
             HashMap<Week, ArrayList<Order>> weeksWithOrders = new HashMap<>();
             DateRange dateRange = orderDateRange(orders); //finds range of order dateMades
+			if (dateRange == null) {
+				toPrint += "  No orders\n";
+				toPrint += "├-------------------------------------------------------------------------------------┤";
+	            return toPrint;
+			}
             ArrayList<Week> weeks = dateRange.makeWeeks();
             for(Week w: weeks) { //this loop fills the map with weeks and their corresponding orders
                 ArrayList<Order> ordersInWeek = new ArrayList<Order>();
@@ -241,9 +250,9 @@ public class Support {
                 ArrayList<Order> ordersOfWeek = weeksWithOrders.get(w);
                 String firstDayString = w.firstDay.readableToString();
                 String seventhDayString = w.seventhDay.readableToString();
-                toPrint += "\nWeek of " + firstDayString + " to " + seventhDayString;
+                toPrint += "  Week of " + firstDayString + " to " + seventhDayString;
                 toPrint += " order revenue: $" + ordersSum(ordersOfWeek);
-                toPrint += "\n\n";
+                toPrint += "\n";
             }
             
             toPrint += "├-------------------------------------------------------------------------------------┤";
@@ -264,7 +273,7 @@ public class Support {
             for(Integer m: monthWithOrders.keySet()) {
                 toPrint += "\n" + monthString(m) + " revenue: " + ordersSum(monthWithOrders.get(m));
             }
-            toPrint += "\n├-------------------------------------------------------------------------------------┤";
+            toPrint += "\n├------------------------------------------------------------------------------------┤";
             return toPrint;
         }
         
