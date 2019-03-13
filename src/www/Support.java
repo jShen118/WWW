@@ -222,45 +222,36 @@ public class Support {
             return new DateRange(lowestDate, highestDate);
         } //produces range of dates that encompasses all the dateMades of all orders
         
-        static public HashMap<Week, ArrayList<Order>> weeksAndCorrespondingOrders(ArrayList<Order> orders) {
-            HashMap<Week, ArrayList<Order>> toReturn = new HashMap<>();
-            DateRange dateRange = orderDateRange(orders); //finds range of order dateMades
-            ArrayList<Week> weeks = dateRange.makeWeeks(); //splits range into component weeks
-            
-            for(Week w: weeks) { //this loop fills the map with weeks and their corresponding orders
-                for(Order o: orders) {
-                    ArrayList<Order> ordersInWeek = new ArrayList<Order>();
-                    if(w.contains(o.dateMade)) {
-                        ordersInWeek.add(o);
-                        System.out.println("order added to week");
-                    }
-                    toReturn.put(w, ordersInWeek);
-                }
-            }
-            return toReturn;
-        }
-        
-        static public ArrayList<Order> ordersOfDate(ArrayList<Order> orders, Date date) {
-            ArrayList<Order> toReturn = new ArrayList<>();
-            for(Order o: orders) {
-                if(o.dateMade == date) {toReturn.add(o);}
-            }
-            return toReturn;
-        }
-        
         static public String weeklyOrderRevenueReport(ArrayList<Order> orders) {
             String toPrint = "├[Weekly Order Revenue Report]-------------------------------------------------------┤";
-            HashMap<Week, ArrayList<Order>> weeksWithOrders = weeksAndCorrespondingOrders(orders);
-            for(Week w: weeksWithOrders.keySet()) {
+            HashMap<Week, ArrayList<Order>> weeksWithOrders = new HashMap<>();
+            DateRange dateRange = orderDateRange(orders); //finds range of order dateMades
+            ArrayList<Week> weeks = dateRange.makeWeeks();
+            for(Week w: weeks) { //this loop fills the map with weeks and their corresponding orders
+                toPrint += "\n" + w.toString();
+                ArrayList<Order> ordersInWeek = new ArrayList<Order>();
+                for(Order o: orders) {
+                    toPrint += "\n" + o.dateMade.toString();
+
+                    if(w.contains(o.dateMade)) {
+                        ordersInWeek.add(o);
+                        toPrint += "\norder added to week";
+                    }
+                    else {toPrint += "\norder not added to week";}
+                }
+                weeksWithOrders.put(w, ordersInWeek);
+            }
+            
+            for(Week w: weeks) {
                 ArrayList<Order> ordersOfWeek = weeksWithOrders.get(w);
                 String firstDayString = w.firstDay.readableToString();
                 String seventhDayString = w.seventhDay.readableToString();
                 
                 for(Order o: ordersOfWeek) {
-                    toPrint += o.toString();
+                    toPrint += "\n" + o.toString();
                 }
                 toPrint += "\nWeek of " + firstDayString + " to " + seventhDayString;
-                toPrint += "\nThis week's order revenue: $" + ordersSum(ordersOfWeek);
+                toPrint += " order revenue: $" + ordersSum(ordersOfWeek);
                 toPrint += "\n\n";
             }
             
