@@ -1,0 +1,10 @@
+printrp
+printcnum
+printcname
+printo
+printp
+printt
+printr
+prints You have significant debt to WWW. The following is your statement:
+printworr
+printmorr

@@ -64,23 +64,28 @@ public class Shop {
 				"　　readc <filename>" + Support.bufferCustom("read commands from file with name <filename>\n", 82 - "readc <filename>".length(), ".") +
 				"　　savebs <filename>" + Support.bufferCustom("save bike shop to file <filename>\n", 82 - "savebs <filename>".length(), ".") +
 				"　　restorebs <filename>" + Support.bufferCustom("restore bike shop from save file <filename>\n", 82 - "restorebs <filename>".length(), ".") +
+				"　　restorebss <filename>" + Support.bufferCustom("silently restore bike shop from save file <filename>\n", 82 - "restorebss <filename>".length(), ".") +
 				"\n　*All dates must be entered in the format of MMDDYYYY (2/5/19 would become 02052019)\n" +
 				"├------------------------------------------------------------------------------------┤";
 		System.out.println(message);
 	};	//print help
-	public void addrp(String brand, RepairLevel level, int price, int days) {
+	public void addrp(String brand, RepairLevel level, int price, int days, boolean silent) {
 		priceTable.addRepairPrice(brand, level, price, days);
-		System.out.println(priceTable);
+		if (!silent) {
+			System.out.println(priceTable);
+		}
 	};	//add repair price
 	public void addc(String firstName, String lastName) {
 		Customer c = new Customer(firstName, lastName);
 		System.out.println("→added customer " + c);
 		customers.add(c);
 	};	//add customer
-	public void addo(int customerNumber, Date date, String brand, RepairLevel level, String comment) {
+	public void addo(int customerNumber, Date date, String brand, RepairLevel level, String comment, boolean silent) {
 		RepairPrice p = priceTable.getRepairPrice(brand, level);
 		Order o = new Order(date, customerNumber, p, comment);	//Date date, int customerNumber, RepairPrice repairPrice, String comment)
-		System.out.println(o);
+		if (!silent) {
+			System.out.println(o);
+		}
 		transactions.add(o);
 	};	//add order
 	public void addp(int customerNumber, Date date, int amount) {

@@ -41,6 +41,7 @@ public class IO {
 		validCommands.add("readc");
 		validCommands.add("savebs");
 		validCommands.add("restorebs");
+		validCommands.add("restorebss");
 	}
 	
 	private String getComment(String[] args, int begin) {
@@ -100,7 +101,7 @@ public class IO {
 	}
 	
 	//returns true on a "quit" command, not that I understand why anybody would want to do that
-	private boolean readCommandsFromFile(String file, boolean isRestoreMode) {
+	private boolean readCommandsFromFile(String file, boolean isRestoreMode, boolean silent) {
 		//get file into fileContent line by line
 		if (isReadingCommands == true) {
 			System.out.println("»Nested readc statements are unacceptable. Skipping command...");
@@ -130,7 +131,8 @@ public class IO {
 		}
 		//execute fileContent
 		for (int i = 0; i < fileContent.size(); ++i) {
-			if (executeCommand(fileContent.get(i), isRestoreMode)) {
+			System.out.println(">" + fileContent.get(i));
+			if (executeCommand(fileContent.get(i), isRestoreMode, silent)) {
 				isReadingCommands = false;
 				return true;
 			}
@@ -159,10 +161,9 @@ public class IO {
 	//this function takes a command and executes it. If it is restoring a save file, 
 	//isRestoreMode is set to true and it can execute the rncn and rnom commands
 	//returns true on "quit", false on anything else. This lets it communicate to run() when it is time to exit.
-	private boolean executeCommand(String command, boolean isRestoreMode) {
+	private boolean executeCommand(String command, boolean isRestoreMode, boolean silent) {
 		String[] args = Support.splitStringIntoParts(command);	//args[0] is the name of the command, rest is arguments
 		if (isRestoreMode) {
-			System.out.println(">" + command);
 			if (args[0].equals("rncn")) {
 				if (!checkForNumArgs(args, 2, false)) {
 					System.out.println("»Error in save: rncn received wrong number of args");
@@ -224,7 +225,7 @@ public class IO {
 				if (addrpdays == null) {
 					break;
 				}
-				shop.addrp(addrpbrand, addrplevel, addrpprice, addrpdays);
+				shop.addrp(addrpbrand, addrplevel, addrpprice, addrpdays, silent);
 				break;
 			case("addc"):
 				if (!checkForNumArgs(args, 3, false)) {
@@ -272,7 +273,7 @@ public class IO {
 					System.out.println("»there is no customer with number " + addocustomerNumber);
 					break;
 				}
-				shop.addo(addocustomerNumber, addodate, addobrand, addolevel, addocomment);
+				shop.addo(addocustomerNumber, addodate, addobrand, addolevel, addocomment, silent);
 				break;
 			case("addp"): 
                 if (!checkForNumArgs(args, 4, false)) {
@@ -350,7 +351,7 @@ public class IO {
 					break;
 				}
 				String readcfilename = args[1];
-				if (readCommandsFromFile(readcfilename, false)) {	//handle quitting
+				if (readCommandsFromFile(readcfilename, false, false)) {	//handle quitting
 					return true;
 				}
 				break;
@@ -370,7 +371,17 @@ public class IO {
 				
 				String restorebsfilename = args[1];
 				shop = new Shop();
-				readCommandsFromFile(restorebsfilename, true);
+				readCommandsFromFile(restorebsfilename, true, false);
+				break;
+			case("restorebss"):
+				if (!checkForNumArgs(args, 2, false)) {
+					System.out.println("→restorebs <filename>");
+					break;
+				}
+				
+				String restorebssfilename = args[1];
+				shop = new Shop();
+				readCommandsFromFile(restorebssfilename, true, true);
 				break;
 			default:
 				System.out.println("»unknown command \"" + args[0] + "\". Type \"help\" for help. " + getSimilarStrings(args[0], validCommands, 2));
@@ -389,7 +400,7 @@ public class IO {
 		boolean quit = false;	//quit flag, set to true when "quit" is entered
 		while (!quit){
 			String command = getCommand();	//wait for user to input a command and set command to that
-			quit = executeCommand(command, false);	//execute the command, set 'quit' flag to true if executeCommand() returns true (which happens when user inputs "quit")
+			quit = executeCommand(command, false, false);	//execute the command, set 'quit' flag to true if executeCommand() returns true (which happens when user inputs "quit")
 		}
 		System.out.println("\nQuitting WWW...");
 	}
