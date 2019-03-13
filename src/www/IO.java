@@ -37,7 +37,7 @@ public class IO {
 		validCommands.add("printr");
 		validCommands.add("prints");
 		validCommands.add("printworr");
-                validCommands.add("printmorr");
+        validCommands.add("printmorr");
 		validCommands.add("readc");
 		validCommands.add("savebs");
 		validCommands.add("restorebs");
