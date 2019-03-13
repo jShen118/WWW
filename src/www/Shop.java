@@ -55,6 +55,7 @@ public class Shop {
 				"　　printcnum" + Support.bufferCustom("print customers by customer name\n", 82 - "printcnum".length(), ".") +
 				"　　printcname" + Support.bufferCustom("print customers by customer number\n", 82 - "printcname".length(), ".") +
 				"　　printo" + Support.bufferCustom("print orders\n", 82 - "printo".length(), ".") +
+				"　　printon <order number>" + Support.bufferCustom("print detailed report of order number <order number>\n", 82 - "printon <order number>".length(), ".") +
 				"　　printp" + Support.bufferCustom("print payments\n", 82 - "printp".length(), ".") +
 				"　　printt" + Support.bufferCustom("print all transactions\n", 82 - "printt".length(), ".") +
 				"　　printr" + Support.bufferCustom("print receivables\n", 82 - "printr".length(), ".") +
@@ -139,7 +140,7 @@ public class Shop {
 		toPrint += "\n├------------------------------------------------------------------------------------┤";
 		System.out.println(toPrint);
 	};
-	
+
 	public String customerInfo(Customer c) { //helper for cnum and cname, returns all relevant info about a customer including number of orders, total value of orders, debt to the company, and a table of all their transactions
 		ArrayList<Transaction> customerTransactions;
 		ArrayList<Order> customerOrders;
@@ -215,13 +216,60 @@ public class Shop {
 			toPrint += "\n│" + orderIDWithBuffer + "│" + dateMadeWithBuffer + "│" + amountWithBuffer + "│" + customerIDWithBuffer + "│" + statusWithBuffer + "│" + completionDateWithBuffer + "│";
 		}
 		toPrint += "\n└----------┴-----------┴--------┴-------------┴-----------┴-----------------┘";//end of table construction
-		toPrint += "\n\nIndividual order Reports:";
-		for(Order o: orders) { //this for loop simply adds all order toString()s to toPrint. Expands on information in the table
-			toPrint += "\n" + o.toString();
-		}
 		toPrint += "\n\n├------------------------------------------------------------------------------------┤";
 		System.out.println(toPrint);
 	}
+	public void printon(int number) { //prints a specific order
+		ArrayList<Order> orders = Support.orders((ArrayList<Transaction>) transactions);
+		for(Order o: orders) {
+			if (o.orderNumber == number) {
+				System.out.println(o);
+				return;
+			}
+		}
+		System.out.println("»no order with that number");
+	}
+//	public void printo() { //prints table of all orders (and individual reports), past and pending; does not order by date yet because date is not comparable
+//		String toPrint = "├[Orders]-----------------------------------------------------------------------------┤";
+//		ArrayList<Order> orders = Support.orders((ArrayList<Transaction>) transactions);
+//		toPrint += "\n# of all orders: " + orders.size();
+//		toPrint += "\n# of incomplete orders: " + (orders.size() - Support.numComplete(orders));
+//		toPrint += "\nValue of all orders: $" + Support.ordersSum(orders);
+//		toPrint += "\n\nTable of all orders:";
+//		toPrint += "\n*to see more specifics about an order scroll down to individual order reports";
+//		toPrint += "\n┌[Order ID]┬[Date Made]┬[Amount]┬[Customer ID]┬[Status]---┬[Completion Date]┐"; // │10│11│8│13│11│17│
+//		orders = Support.oSortedByDate(orders);
+//		for(Order o: orders) { //this for loop is for producing the table
+//			int orderID = o.orderNumber;
+//			Date dateMade = o.dateMade;
+//			int amount = o.amount;
+//			int customerID = o.customerNumber;
+//			String status;
+//			String completionDate = "";
+//			if(o.isComplete()) {
+//				status = "complete";
+//				completionDate = o.completionDate.toString();
+//			} else {
+//				status = "incomplete";
+//				completionDate = "-";
+//			}
+//			
+//			String orderIDWithBuffer = Support.bufferSpaceCentered(Integer.toString(orderID), 10);
+//			String dateMadeWithBuffer = Support.bufferSpaceCentered(dateMade.readableToString(), 11);
+//			String amountWithBuffer = Support.bufferSpaceCentered(Integer.toString(amount), 8);
+//			String customerIDWithBuffer = Support.bufferSpaceCentered(Integer.toString(customerID), 13);
+//			String statusWithBuffer = Support.bufferSpaceCentered(status, 11);
+//			String completionDateWithBuffer = Support.bufferSpaceCentered(completionDate.toString(), 17);
+//			toPrint += "\n│" + orderIDWithBuffer + "│" + dateMadeWithBuffer + "│" + amountWithBuffer + "│" + customerIDWithBuffer + "│" + statusWithBuffer + "│" + completionDateWithBuffer + "│";
+//		}
+//		toPrint += "\n└----------┴-----------┴--------┴-------------┴-----------┴-----------------┘";//end of table construction
+//		toPrint += "\n\nIndividual order Reports:";
+//		for(Order o: orders) { //this for loop simply adds all order toString()s to toPrint. Expands on information in the table
+//			toPrint += "\n" + o.toString();
+//		}
+//		toPrint += "\n\n├------------------------------------------------------------------------------------┤";
+//		System.out.println(toPrint);
+//	}
 	public void printp() { //prints table of payments and each individual report
 		String toPrint = "├[Payments]--------------------------------------------------------------------------┤";
 		ArrayList<Payment> payments = Support.payments((ArrayList<Transaction>) transactions);

@@ -2,6 +2,8 @@ printrp
 printcnum
 printcname
 printo
+printon 1
+printon 2
 printp
 printt
 printr

@@ -32,6 +32,7 @@ public class IO {
 		validCommands.add("printcnum");
 		validCommands.add("printcname");
 		validCommands.add("printo");
+		validCommands.add("printon");
 		validCommands.add("printp");
 		validCommands.add("printt");
 		validCommands.add("printr");
@@ -320,6 +321,17 @@ public class IO {
 				break;
 			case("printo"): 
 				shop.printo();
+				break;
+			case("printon"): 
+				if (!checkForNumArgs(args, 2, false)) {
+					System.out.println("→printon <order number>");
+					break;
+				}
+				Integer printonnumber = stringToInt(args[1]);
+				if (printonnumber == null) {
+					break;
+				}
+				shop.printon(printonnumber);
 				break;
 			case("printp"): 
 				shop.printp();
