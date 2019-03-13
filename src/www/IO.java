@@ -36,6 +36,8 @@ public class IO {
 		validCommands.add("printt");
 		validCommands.add("printr");
 		validCommands.add("prints");
+		validCommands.add("printworr");
+                validCommands.add("printmorr");
 		validCommands.add("readc");
 		validCommands.add("savebs");
 		validCommands.add("restorebs");
@@ -330,6 +332,12 @@ public class IO {
 			case("prints"):
 				shop.prints();
 				break;
+			case("printworr"):
+                                shop.printworr();
+                                break;
+                        case("printmorr"):
+                                shop.printmorr();
+                                break;
 			case("readc"):
 				if (!checkForNumArgs(args, 2, false)) {
 					System.out.println("→readc <filename>");
