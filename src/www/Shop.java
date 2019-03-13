@@ -59,6 +59,8 @@ public class Shop {
 				"　　printt" + Support.bufferCustom("print all transactions\n", 82 - "printt".length(), ".") +
 				"　　printr" + Support.bufferCustom("print receivables\n", 82 - "printr".length(), ".") +
 				"　　prints" + Support.bufferCustom("print statements\n", 82 - "prints".length(), ".") +
+				"　　printworr" + Support.bufferCustom("prints weekly order revenue report\n", 82 - "prints".length(), ".") +
+				"　　printmorr" + Support.bufferCustom("print monthly order revenue report\n", 82 - "prints".length(), ".") +
 				"　　readc <filename>" + Support.bufferCustom("read commands from file with name <filename>\n", 82 - "readc <filename>".length(), ".") +
 				"　　savebs <filename>" + Support.bufferCustom("save bike shop to file <filename>\n", 82 - "savebs <filename>".length(), ".") +
 				"　　restorebs <filename>" + Support.bufferCustom("restore bike shop from save file <filename>\n", 82 - "restorebs <filename>".length(), ".") +
@@ -347,12 +349,12 @@ public class Shop {
 		}
 	};	//print statements
 	
-	public void printworp() {
+	public void printworr() {
             String toPrint = Support.weeklyOrderRevenueReport(Support.orders((ArrayList<Transaction>) transactions));
             System.out.println(toPrint);
         }
 	
-	public void printmorp() {
+	public void printmorr() {
             String toPrint = Support.monthlyOrderRevenueReport(Support.orders((ArrayList<Transaction>) transactions));
             System.out.println(toPrint);
         }
