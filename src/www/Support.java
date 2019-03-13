@@ -246,19 +246,36 @@ public class Support {
                 weeksWithOrders.put(w, ordersInWeek);
             }
             
+			HashMap<String, Integer> weekRevenue = new HashMap<>();	
+			int highestRevenue = 0;
             for(Week w: weeks) {
                 ArrayList<Order> ordersOfWeek = weeksWithOrders.get(w);
+				int sum = ordersSum(ordersOfWeek);
                 String firstDayString = w.firstDay.readableToString();
                 String seventhDayString = w.seventhDay.readableToString();
                 toPrint += "  Week of " + firstDayString + " to " + seventhDayString;
-                toPrint += " order revenue: $" + ordersSum(ordersOfWeek);
+				String weekName = "Week of " + firstDayString;
+				weekRevenue.put(weekName, sum);
+				if (sum > highestRevenue) {
+					highestRevenue = sum;
+				}
+                toPrint += " order revenue: $" + sum;
                 toPrint += "\n";
             }
             
-            toPrint += "├-------------------------------------------------------------------------------------┤";
+			float interval = highestRevenue / 70; //value of each char for graph
+			toPrint += "\nVisualization: (one * = $" + interval + ")";
+			for(String w: weekRevenue.keySet()) {
+				toPrint += "\n  " + w + "|";
+				for (int i = 0; i < weekRevenue.get(w) / interval; ++i) {
+					toPrint += "*";
+				}
+            }
+            toPrint += "\n├-------------------------------------------------------------------------------------┤";
             return toPrint;
         }
 	
+		
         static public String monthlyOrderRevenueReport(ArrayList<Order> orders) {
             String toPrint = "├[Monthly Order Revenue Report]-------------------------------------------------------┤";
             //DateRange dateRange = orderDateRange(orders);
@@ -270,10 +287,27 @@ public class Support {
                 monthWithOrders.get(o.dateMade.month).add(o);
             }
             
+			HashMap<Integer, Integer> monthsRevenue = new HashMap<>();	//month: revenue
+			int highestRevenue = 0;
             for(Integer m: monthWithOrders.keySet()) {
-                toPrint += "\n" + monthString(m) + " revenue: " + ordersSum(monthWithOrders.get(m));
+				Integer month = m;
+				Integer sum = ordersSum(monthWithOrders.get(m));
+				//keep track of what the highest revenue is
+				if (sum > highestRevenue) {
+					highestRevenue = sum;
+				}
+				monthsRevenue.put(month, sum);
+                toPrint += "\n  " + monthString(month) + " revenue: " + sum;
             }
-            toPrint += "\n├------------------------------------------------------------------------------------┤";
+			float interval = highestRevenue / 65; //value of each char for graph
+			toPrint += "\nVisualization: (one * = $" + interval + ")";
+			for(Integer m: monthsRevenue.keySet()) {
+				toPrint += "\n  " + monthString(m) + bufferSpace("|", 10 - monthString(m).length());
+				for (int i = 0; i < monthsRevenue.get(m) / interval; ++i) {
+					toPrint += "*";
+				}
+            }
+            toPrint += "\n├-------------------------------------------------------------------------------------┤";
             return toPrint;
         }
         
