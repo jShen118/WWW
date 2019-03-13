@@ -1,6 +1,17 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package www;
 
 import java.util.ArrayList;
+
+/**
+ *
+ * @author joshuashen
+ */
+
 public class Week {
     Date firstDay;
     Date secondDay;
@@ -30,6 +41,9 @@ public class Week {
     }
     
     public boolean contains(Date date) {
-        return allDays.contains(date);
+        for(Date d: allDays) {
+            if(d.equals(date)) {return true;}
+        }
+        return false;
     }
 }
