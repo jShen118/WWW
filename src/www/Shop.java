@@ -58,7 +58,7 @@ public class Shop {
 				"　　printp" + Support.bufferCustom("print payments\n", 82 - "printp".length(), ".") +
 				"　　printt" + Support.bufferCustom("print all transactions\n", 82 - "printt".length(), ".") +
 				"　　printr" + Support.bufferCustom("print receivables\n", 82 - "printr".length(), ".") +
-				"　　prints" + Support.bufferCustom("print statements\n", 82 - "prints".length(), ".") +
+				"　　prints <statement>" + Support.bufferCustom("print statements with optional message of <statement>\n", 82 - "prints <statement>".length(), ".") +
 				"　　printworr" + Support.bufferCustom("prints weekly order revenue report\n", 82 - "printworr".length(), ".") +
 				"　　printmorr" + Support.bufferCustom("print monthly order revenue report\n", 82 - "printmorr".length(), ".") +
 				"　　readc <filename>" + Support.bufferCustom("read commands from file with name <filename>\n", 82 - "readc <filename>".length(), ".") +
@@ -313,7 +313,7 @@ public class Shop {
 		toPrint += "\n├------------------------------------------------------------------------------------┤";
 		System.out.println(toPrint);
 	};
-	public void prints() {
+	public void prints(String message) {
 		ArrayList<Customer> customersWithDebt = new ArrayList<>();
 		for(Customer c: customers) { // this for loop finds customers with debt
 			ArrayList<Transaction> customerTransactions = Support.customerTransactions(c, (ArrayList<Transaction>) transactions);
@@ -325,7 +325,7 @@ public class Shop {
 		//loop through customers with debt and total up their debt
 		for (Customer c: customersWithDebt) {
 			String capitalizedLN = c.lastName.substring(0, 1).toUpperCase() + c.lastName.substring(1);
-			String statement = "Dear Mr./Ms. " + capitalizedLN + ",\nThe following is your statement from Wheels Within Wheels:\n\n";
+			String statement = "Dear Mr./Ms. " + capitalizedLN + ",\n" + message + "\n\n";
 			ArrayList<Transaction> customerTransactions = Support.customerTransactions(c, (ArrayList<Transaction>) transactions);
 			int grandTotal = 0;
 			for (Transaction t: customerTransactions) {

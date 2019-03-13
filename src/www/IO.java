@@ -330,7 +330,13 @@ public class IO {
 				shop.printr();
 				break;
 			case("prints"):
-				shop.prints();
+				String printsstatement;
+				if (args.length >= 2) {
+					printsstatement = getComment(args, 1);
+				} else {
+					printsstatement = "The following is your statement from Wheels within Wheels:";
+				}
+				shop.prints(printsstatement);
 				break;
 			case("printworr"):
                 shop.printworr();
