@@ -76,4 +76,12 @@ public class Date implements Comparable<Date> {
         //passes these two if statements if the two dates are the same, return 0
         return 0;
     }
+	
+	public boolean isGreaterThan(Date date) {
+        return (compareTo(date) == 1);
+    }
+    
+    public boolean equals(Date date) {
+        return(compareTo(date) == 0);
+    }
 }
